@@ -9,6 +9,7 @@ import Sidebar from "components/Sidebar/Sidebar";
 import { style } from "variables/Variables.jsx";
 
 import routes from "routes.js";
+import links from "links.js";
 
 import image from "assets/img/sidebar-3.jpg";
 
@@ -56,6 +57,26 @@ class Admin extends Component {
   };
   getRoutes = routes => {
     return routes.map((prop, key) => {
+      if (prop.layout === "/admin") {
+        return (
+          <Route
+            path={prop.layout + prop.path}
+            render={props => (
+              <prop.component
+                {...props}
+                handleClick={this.handleNotificationClick}
+              />
+            )}
+            key={key}
+          />
+        );
+      } else {
+        return null;
+      }
+    });
+  };
+  getLinks = links => {
+    return links.map((prop, key) => {
       if (prop.layout === "/admin") {
         return (
           <Route
@@ -161,7 +182,10 @@ class Admin extends Component {
             {...this.props}
             brandText={this.getBrandText(this.props.location.pathname)}
           />
-          <Switch>{this.getRoutes(routes)}</Switch>
+          <Switch>
+            {this.getRoutes(routes)}
+            {this.getRoutes(links)}
+          </Switch>
           <Footer />
         </div>
       </div>
