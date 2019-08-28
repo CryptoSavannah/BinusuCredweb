@@ -3,6 +3,7 @@ import ChartistGraph from "react-chartist";
 import { Grid, Row, Col } from "react-bootstrap";
 
 import { Card } from "components/Card/Card.jsx";
+
 import { StatsCard } from "components/StatsCard/StatsCard.jsx";
 import { Tasks } from "components/Tasks/Tasks.jsx";
 import {
@@ -34,38 +35,32 @@ class Dashboard extends Component {
       <div className="content">
         <Grid fluid>
           <Row>
-            <Col lg={3} sm={6}>
+            <Col lg={4} sm={12}>
               <StatsCard
+                cardLink="#"
                 bigIcon={<i className="pe-7s-server text-warning" />}
-                statsText="Lending Pool"
+                statsText="Available Credit Funds"
                 statsValue="450M BNU"
                 statsIcon={<i className="fa fa-refresh" />}
                 statsIconText="Updated now"
               />
             </Col>
-            <Col lg={3} sm={6}>
+            <Col lg={4} sm={12}>
               <StatsCard
-                bigIcon={<i className="pe-7s-wallet text-success" />}
-                statsText="Total Credit"
-                statsValue="190M BNU"
-                statsIcon={<i className="fa fa-calendar-o" />}
-                statsIconText="Last day"
-              />
-            </Col>
-            <Col lg={3} sm={6}>
-              <StatsCard
+                cardLink="/admin/lending"
                 bigIcon={<i className="pe-7s-cash text-danger" />}
-                statsText="Lenders"
-                statsValue="500"
+                statsText="Lend Funds"
+                statsValue="500K BNU"
                 statsIcon={<i className="fa fa-clock-o" />}
                 statsIconText="In the last hour"
               />
             </Col>
-            <Col lg={3} sm={6}>
+            <Col lg={4} sm={12}>
               <StatsCard
+                cardLink="/admin/borrowing"
                 bigIcon={<i className="pe-7s-portfolio text-info" />}
-                statsText="Borrowers"
-                statsValue="450K"
+                statsText="Borrow Funds"
+                statsValue="0"
                 statsIcon={<i className="fa fa-refresh" />}
                 statsIconText="Updated now"
               />
@@ -116,7 +111,7 @@ class Dashboard extends Component {
           </Row>
 
           <Row>
-            <Col md={6}>
+            <Col md={12}>
               <Card
                 id="chartActivity"
                 title="Trend Analysis"
@@ -135,22 +130,6 @@ class Dashboard extends Component {
                 }
                 legend={
                   <div className="legend">{this.createLegend(legendBar)}</div>
-                }
-              />
-            </Col>
-
-            <Col md={6}>
-              <Card
-                title="Query Management"
-                category="Customer queries and questions"
-                stats="Updated 3 minutes ago"
-                statsIcon="fa fa-history"
-                content={
-                  <div className="table-full-width">
-                    <table className="table">
-                      <Tasks />
-                    </table>
-                  </div>
                 }
               />
             </Col>
