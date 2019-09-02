@@ -39,7 +39,7 @@ class Dashboard extends Component {
               <StatsCard
                 cardLink="#"
                 bigIcon={<i className="pe-7s-server text-warning" />}
-                statsText="Available Credit Funds"
+                statsText="Available Funds to Borrow"
                 statsValue="450M BNU"
                 statsIcon={<i className="fa fa-refresh" />}
                 statsIconText="Updated now"
@@ -49,7 +49,7 @@ class Dashboard extends Component {
               <StatsCard
                 cardLink="/admin/lending"
                 bigIcon={<i className="pe-7s-cash text-danger" />}
-                statsText="Lend Funds"
+                statsText="I am a Lender"
                 statsValue="500K BNU"
                 statsIcon={<i className="fa fa-clock-o" />}
                 statsIconText="In the last hour"
@@ -59,7 +59,7 @@ class Dashboard extends Component {
               <StatsCard
                 cardLink="/admin/borrowing"
                 bigIcon={<i className="pe-7s-portfolio text-info" />}
-                statsText="Borrow Funds"
+                statsText="I am a Borrower"
                 statsValue="0"
                 statsIcon={<i className="fa fa-refresh" />}
                 statsIconText="Updated now"
@@ -71,7 +71,7 @@ class Dashboard extends Component {
               <Card
                 statsIcon="fa fa-history"
                 id="chartHours"
-                title="Credit Forecasts"
+                title="Interest Rate Predictions"
                 category="24 Hours performance"
                 stats="Updated 3 minutes ago"
                 content={
@@ -92,7 +92,7 @@ class Dashboard extends Component {
             <Col md={4}>
               <Card
                 statsIcon="fa fa-clock-o"
-                title="Credit Players"
+                title="Market Status"
                 category="24 Hours Performance"
                 stats="Campaign sent 2 days ago"
                 content={
