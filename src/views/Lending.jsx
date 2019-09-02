@@ -37,7 +37,7 @@ class Lending extends Component {
           <Row>
             <Col lg={3} sm={6}>
               <StatsCard
-                bigIcon={<i className="pe-7s-server text-warning" />}
+                bigIcon={<i className="pe-7s-drawer text-success" />}
                 statsText="Lending Balance"
                 statsValue="500K BNU"
                 statsIcon={<i className="fa fa-refresh" />}
@@ -46,7 +46,7 @@ class Lending extends Component {
             </Col>
             <Col lg={3} sm={6}>
               <StatsCard
-                bigIcon={<i className="pe-7s-cash text-danger" />}
+                bigIcon={<i className="pe-7s-cash text-info" />}
                 statsText="Total Interest Accrued"
                 statsValue="5K BNU"
                 statsIcon={<i className="fa fa-clock-o" />}
@@ -55,7 +55,7 @@ class Lending extends Component {
             </Col>
             <Col lg={3} sm={6}>
               <StatsCard
-                bigIcon={<i className="pe-7s-portfolio text-info" />}
+                bigIcon={<i className="pe-7s-hourglass text-info" />}
                 statsText="Running Interest Rate"
                 statsValue="0.7%"
                 statsIcon={<i className="fa fa-refresh" />}
@@ -64,7 +64,7 @@ class Lending extends Component {
             </Col>
             <Col lg={3} sm={6}>
               <StatsCard
-                bigIcon={<i className="pe-7s-portfolio text-info" />}
+                bigIcon={<i className="pe-7s-id text-success" />}
                 statsText="Lending Rank"
                 statsValue="A"
                 statsIcon={<i className="fa fa-refresh" />}

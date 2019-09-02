@@ -15,7 +15,7 @@ export class Tasks extends Component {
   render() {
     const edit = <Tooltip id="edit_tooltip">View Details</Tooltip>;
     const remove = <Tooltip id="remove_tooltip">Remove</Tooltip>;
-    // const [modalShow, setModalShow] = React.useState(false);
+    
     const tasks_title = [
       'Sign contract for "What are conference organizers afraid of?"',
       "Lines From Great Russian Literature? Or E-mails From My Boss?",

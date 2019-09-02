@@ -244,14 +244,13 @@ var style = {
 // // // For tables
 // //
 //
-const thArray = ["ID", "Name", "Salary", "Country", "City"];
+const thArray = ["ID", "Date", "Amount", "Status"];
 const tdArray = [
-  ["1", "Dakota Rice", "$36,738", "Niger", "Oud-Turnhout"],
-  ["2", "Minerva Hooper", "$23,789", "Curaçao", "Sinaai-Waas"],
-  ["3", "Sage Rodriguez", "$56,142", "Netherlands", "Baileux"],
-  ["4", "Philip Chaney", "$38,735", "Korea, South", "Overland Park"],
-  ["5", "Doris Greene", "$63,542", "Malawi", "Feldkirchen in Kärnten"],
-  ["6", "Mason Porter", "$78,615", "Chile", "Gloucester"]
+  ["1", "02-09-2019", "10,500", "Processing"],
+  ["2", "01-09-2019", "12,500", "Declined"],
+  ["3", "01-09-2019", "30,650", "Declined"],
+  ["4", "01-09-2019", "90,250", "Processing"],
+  ["5", "01-09-2019", "30,300", "Processing"],
 ];
 
 //
@@ -475,7 +474,7 @@ var dataPie = {
   series: [40, 20, 40]
 };
 var legendPie = {
-  names: ["Open", "Bounce", "Unsubscribe"],
+  names: ["Borrowed", "Repaid", "Available"],
   types: ["info", "danger", "warning"]
 };
 

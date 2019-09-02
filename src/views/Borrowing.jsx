@@ -41,7 +41,7 @@ class Borrowing extends Component {
           <Row>
             <Col lg={3} sm={6}>
               <StatsCard
-                bigIcon={<i className="pe-7s-server text-warning" />}
+                bigIcon={<i className="pe-7s-credit text-warning" />}
                 statsText="Borrowing Balance"
                 statsValue="50K BNU"
                 statsIcon={<i className="fa fa-refresh" />}
@@ -59,7 +59,7 @@ class Borrowing extends Component {
             </Col>
             <Col lg={3} sm={6}>
               <StatsCard
-                bigIcon={<i className="pe-7s-portfolio text-info" />}
+                bigIcon={<i className="pe-7s-refresh-2 text-info" />}
                 statsText="Running Interest Rate"
                 statsValue="0.7%"
                 statsIcon={<i className="fa fa-refresh" />}
@@ -68,7 +68,7 @@ class Borrowing extends Component {
             </Col>
             <Col lg={3} sm={6}>
               <StatsCard
-                bigIcon={<i className="pe-7s-portfolio text-info" />}
+                bigIcon={<i className="pe-7s-portfolio text-success" />}
                 statsText="Credit Score"
                 statsValue="650"
                 statsIcon={<i className="fa fa-refresh" />}
@@ -83,47 +83,33 @@ class Borrowing extends Component {
                 content={
                   <form>
                     <FormInputs
-                      ncols={["col-md-5", "col-md-3", "col-md-4"]}
+                      ncols={["col-md-12"]}
                       properties={[
                         {
-                          label: "Company (disabled)",
+                          label: "Borrowing Address (disabled)",
                           type: "text",
                           bsClass: "form-control",
-                          placeholder: "Company",
-                          defaultValue: "Creative Code Inc.",
+                          placeholder: "Borrowing Address",
+                          defaultValue: "ipkau2345765432345645",
                           disabled: true
                         },
-                        {
-                          label: "Username",
-                          type: "text",
-                          bsClass: "form-control",
-                          placeholder: "Username",
-                          defaultValue: "michael23"
-                        },
-                        {
-                          label: "Email address",
-                          type: "email",
-                          bsClass: "form-control",
-                          placeholder: "Email"
-                        }
                       ]}
                     />
                     <FormInputs
                       ncols={["col-md-6", "col-md-6"]}
                       properties={[
                         {
-                          label: "First name",
+                          label: "Amount",
                           type: "text",
                           bsClass: "form-control",
-                          placeholder: "First name",
-                          defaultValue: "Mike"
+                          placeholder: "Amount",
+                          defaultValue: "10,000"
                         },
                         {
-                          label: "Last name",
-                          type: "text",
+                          label: "Repayment Date",
+                          type: "date",
                           bsClass: "form-control",
-                          placeholder: "Last name",
-                          defaultValue: "Andrew"
+                          placeholder: "Repayment dATE",
                         }
                       ]}
                     />
@@ -131,37 +117,13 @@ class Borrowing extends Component {
                       ncols={["col-md-12"]}
                       properties={[
                         {
-                          label: "Adress",
+                          label: "Interest Calculator",
                           type: "text",
                           bsClass: "form-control",
-                          placeholder: "Home Adress",
+                          placeholder: "Interest Calculator",
                           defaultValue:
-                            "Bld Mihail Kogalniceanu, nr. 8 Bl 1, Sc 1, Ap 09"
-                        }
-                      ]}
-                    />
-                    <FormInputs
-                      ncols={["col-md-4", "col-md-4", "col-md-4"]}
-                      properties={[
-                        {
-                          label: "City",
-                          type: "text",
-                          bsClass: "form-control",
-                          placeholder: "City",
-                          defaultValue: "Mike"
-                        },
-                        {
-                          label: "Country",
-                          type: "text",
-                          bsClass: "form-control",
-                          placeholder: "Country",
-                          defaultValue: "Andrew"
-                        },
-                        {
-                          label: "Postal Code",
-                          type: "number",
-                          bsClass: "form-control",
-                          placeholder: "ZIP Code"
+                            "10,500",
+                          disabled: true
                         }
                       ]}
                     />
