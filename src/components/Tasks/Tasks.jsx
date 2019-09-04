@@ -41,12 +41,12 @@ export class Tasks extends Component {
     const { showModal } = this.state;
     
     const tasks_title = [
-      'Sign contract for "What are conference organizers afraid of?"',
-      "Lines From Great Russian Literature? Or E-mails From My Boss?",
-      "Flooded: One year later, assessing what was lost and what was found when a ravaging rain swept through metro Detroi",
-      "Create 4 Invisible User Experiences you Never Knew About",
-      'Read "Following makes Medium better"',
-      "Unfollow 5 enemies from twitter"
+      'ipKAU456789876543456787iuygbhjuygfvg789767887676765',
+      "ipKAU456789876543456787iuygbhjuygfvg789767887676765",
+      "ipKAU456789876543456787iuygbhjuygfvg789767887676765",
+      "ipKAU456789876543456787iuygbhjuygfvg789767887676765",
+      'ipKAU456789876543456787iuygbhjuygfvg789767887676765',
+      "ipKAU456789876543456787iuygbhjuygfvg789767887676765"
     ];
     var tasks = [];
     var number;
