@@ -1,34 +1,45 @@
 import React, { Component } from "react";
-import { Modal } from "react-bootstrap"; 
 import Button from "components/CustomButton/CustomButton.jsx";
+import $ from 'jquery';
 
 export class DetailModal extends Component {
+    constructor(props) {
+        super(props);
+        this.handleCloseClick = this.handleCloseClick.bind(this);
+      }
+      componentDidMount() {
+        const { handleModalCloseClick } = this.props;
+        $(this.modal).modal('show');
+        $(this.modal).on('hidden.bs.modal', handleModalCloseClick);
+      }
+      handleCloseClick() {
+        const { handleModalCloseClick } = this.props;
+        $(this.modal).modal('hide');
+        handleModalCloseClick();
+      }
 
     render() {
       return (
-        <Modal
-            {...this.props}
-            size="lg"
-            aria-labelledby="contained-modal-title-vcenter"
-            centered
-        >
-            <Modal.Header closeButton>
-                <Modal.Title id="contained-modal-title-vcenter">
-                Modal heading
-                </Modal.Title>
-            </Modal.Header>
-            <Modal.Body>
-                <h4>Centered Modal</h4>
-                <p>
-                Cras mattis consectetur purus sit amet fermentum. Cras justo odio,
-                dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta ac
-                consectetur ac, vestibulum at eros.
-                </p> 
-            </Modal.Body>
-            <Modal.Footer>
-                <Button onClick={this.props.onHide}>Close</Button>
-            </Modal.Footer>
-        </Modal>
+        <div>
+        <div className="modal fade" ref={modal => (this.modal) = modal} id="exampleModal" tabIndex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div className="modal-dialog" role="document">
+            <div className="modal-content">
+              <div className="modal-header">
+                <h5 className="modal-title" id="exampleModalLabel">Modal title</h5>
+                    <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div className="modal-body">
+                Modal Body
+                </div>
+                <div className="modal-footer">
+                    <button type="button" className="btn btn-secondary" onClick={this.handleCloseClick}>Close</button>
+                </div>
+                </div>
+            </div>
+        </div>
+        </div>
       );
     }
   }

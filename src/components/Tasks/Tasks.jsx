@@ -5,6 +5,29 @@ import Button from "components/CustomButton/CustomButton.jsx";
 import DetailModal from "components/Modal/Modal.jsx";
 
 export class Tasks extends Component {
+
+  constructor(props) {
+    super(props);
+    this.handleModalShowClick = this.handleModalShowClick.bind(this);
+    this.handleModalCloseClick = this.handleModalCloseClick.bind(this);
+    this.state = {
+      showModal: false,
+      }
+    }
+
+  handleModalShowClick(e) {
+    e.preventDefault();
+    this.setState({
+      showModal: true
+    })
+  }
+
+  handleModalCloseClick() {
+    this.setState({
+      showModal: false
+    })
+  }
+
   handleCheckbox = event => {
     const target = event.target;
     console.log(event.target);
@@ -15,6 +38,7 @@ export class Tasks extends Component {
   render() {
     const edit = <Tooltip id="edit_tooltip">View Details</Tooltip>;
     const remove = <Tooltip id="remove_tooltip">Remove</Tooltip>;
+    const { showModal } = this.state;
     
     const tasks_title = [
       'Sign contract for "What are conference organizers afraid of?"',
@@ -39,7 +63,7 @@ export class Tasks extends Component {
           <td>{tasks_title[i]}</td>
           <td className="td-actions text-right">
             <OverlayTrigger placement="top" overlay={edit}>
-              <Button bsStyle="info" simple type="button" bsSize="xs">
+              <Button bsStyle="info" simple type="button" bsSize="xs" onClick={this.handleModalShowClick}>
                 <i className="fa fa-edit" />
               </Button>
             </OverlayTrigger>
@@ -49,6 +73,8 @@ export class Tasks extends Component {
                 <i className="fa fa-times" />
               </Button>
             </OverlayTrigger>
+
+            {showModal ? (<DetailModal handleModalCloseClick={this.handleModalCloseClick} />) : null}
           </td>
         </tr>
       );

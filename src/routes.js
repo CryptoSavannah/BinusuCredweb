@@ -13,41 +13,41 @@ const dashboardRoutes = [
     component: Dashboard,
     layout: "/admin"
   },
-  // {
-  //   path: "/lenders",
-  //   name: "Lenders",
-  //   icon: "pe-7s-user",
-  //   component: TableList,
-  //   layout: "/admin"
-  // },
-  // {
-  //   path: "/rankings",
-  //   name: "Rankings",
-  //   icon: "pe-7s-note2",
-  //   component: UserProfile,
-  //   layout: "/admin"
-  // },
-  // {
-  //   path: "/forecasts",
-  //   name: "Forecasts",
-  //   icon: "pe-7s-news-paper",
-  //   component: Typography,
-  //   layout: "/admin"
-  // },
-  // {
-  //   path: "/admin_settings",
-  //   name: "Admin Configuration",
-  //   icon: "pe-7s-science",
-  //   component: Icons,
-  //   layout: "/admin"
-  // },
-  // {
-  //   path: "/notifications",
-  //   name: "Notifications",
-  //   icon: "pe-7s-bell",
-  //   component: Notifications,
-  //   layout: "/admin"
-  // },
+  {
+    path: "/lenders",
+    name: "Lenders",
+    icon: "pe-7s-user",
+    component: TableList,
+    layout: "/admin"
+  },
+  {
+    path: "/rankings",
+    name: "Rankings",
+    icon: "pe-7s-note2",
+    component: UserProfile,
+    layout: "/admin"
+  },
+  {
+    path: "/forecasts",
+    name: "Forecasts",
+    icon: "pe-7s-news-paper",
+    component: Typography,
+    layout: "/admin"
+  },
+  {
+    path: "/admin_settings",
+    name: "Admin Configuration",
+    icon: "pe-7s-science",
+    component: Icons,
+    layout: "/admin"
+  },
+  {
+    path: "/notifications",
+    name: "Notifications",
+    icon: "pe-7s-bell",
+    component: Notifications,
+    layout: "/admin"
+  },
 ];
 
 export default dashboardRoutes;

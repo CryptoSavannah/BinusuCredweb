@@ -8,7 +8,7 @@ import { FormInputs } from "components/FormInputs/FormInputs.jsx";
 
 import { Card } from "components/Card/Card.jsx";
 import { StatsCard } from "components/StatsCard/StatsCard.jsx";
-import { thArray, tdArray } from "variables/Variables.jsx";
+import { thArray, tdArray, thBorrowersArray, tdBorrowersArray } from "variables/Variables.jsx";
 import { Tasks } from "components/Tasks/Tasks.jsx";
 import {
   dataPie,
@@ -42,7 +42,7 @@ class Borrowing extends Component {
             <Col lg={3} sm={6}>
               <StatsCard
                 bigIcon={<i className="pe-7s-credit text-warning" />}
-                statsText="Borrowing Balance"
+                statsText="Funds Owed"
                 statsValue="50K BNU"
                 statsIcon={<i className="fa fa-refresh" />}
                 statsIconText="Updated now"
@@ -169,20 +169,35 @@ class Borrowing extends Component {
           </Row>
 
           <Row>
-            <Col md={12}>
-              <Card
-                title="Transaction History"
-                category="Filtered according to Time and Type of Transaction"
-                stats="Updated 3 minutes ago"
-                statsIcon="fa fa-history"
-                content={
-                  <div className="table-full-width">
-                    <table className="table">
-                      <Tasks />
-                    </table>
-                  </div>
-                }
-              />
+          <Col md={12}>
+            <Card
+              title="Borrowing History"
+              category="Summary of all the borroeing history"
+              ctTableFullWidth
+              ctTableResponsive
+              content={
+                <Table striped hover>
+                  <thead>
+                    <tr>
+                      {thBorrowersArray.map((prop, key) => {
+                        return <th key={key}>{prop}</th>;
+                      })}
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {tdBorrowersArray.map((prop, key) => {
+                      return (
+                        <tr key={key}>
+                          {prop.map((prop, key) => {
+                            return <td key={key}>{prop}</td>;
+                          })}
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </Table>
+              }
+            />
             </Col>
           </Row>
         </Grid>
