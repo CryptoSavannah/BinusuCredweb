@@ -62,8 +62,8 @@ class Borrowing extends Component {
                 bigIcon={<i className="pe-7s-refresh-2 text-info" />}
                 statsText="Running Interest Rate"
                 statsValue="0.7%"
-                statsIcon={<i className="fa fa-refresh" />}
-                statsIconText="Updated now"
+                statsIcon={<i className="fa fa-info" />}
+                statsIconText="See how it's calculated"
               />
             </Col>
             <Col lg={3} sm={6}>
@@ -71,8 +71,8 @@ class Borrowing extends Component {
                 bigIcon={<i className="pe-7s-portfolio text-success" />}
                 statsText="Credit Score"
                 statsValue="650"
-                statsIcon={<i className="fa fa-refresh" />}
-                statsIconText="Updated now"
+                statsIcon={<i className="fa fa-info" />}
+                statsIconText="See how it's calculated"
               />
             </Col>
           </Row>

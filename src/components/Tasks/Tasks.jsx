@@ -41,12 +41,12 @@ export class Tasks extends Component {
     const { showModal } = this.state;
     
     const tasks_title = [
-      'ipKAU456789876543456787iuygbhjuygfvg789767887676765',
-      "ipKAU456789876543456787iuygbhjuygfvg789767887676765",
-      "ipKAU456789876543456787iuygbhjuygfvg789767887676765",
-      "ipKAU456789876543456787iuygbhjuygfvg789767887676765",
-      'ipKAU456789876543456787iuygbhjuygfvg789767887676765',
-      "ipKAU456789876543456787iuygbhjuygfvg789767887676765"
+      ['ipKAU456789876543456787iuygbhjuygfvg789767887676765', "20,000", "10 days"],
+      ["ipKAU456789876543456787iuygbhjuygfvg789767887676765", "25,000", "15 days"],
+      ["ipKAU456789876543456787iuygbhjuygfvg789767887676765", "10,000", "30 days"],
+      ["ipKAU456789876543456787iuygbhjuygfvg789767887676765", "30,000", "12 days"],
+      ['ipKAU456789876543456787iuygbhjuygfvg789767887676765', "35,000", "2 days"],
+      ["ipKAU456789876543456787iuygbhjuygfvg789767887676765", "15,000", "4 days"]
     ];
     var tasks = [];
     var number;
@@ -60,7 +60,9 @@ export class Tasks extends Component {
               isChecked={i === 1 || i === 2 ? true : false}
             />
           </td>
-          <td>{tasks_title[i]}</td>
+          <td>{tasks_title[i][0]}</td>
+          <td>{tasks_title[i][1]}</td>
+          <td>{tasks_title[i][2]}</td>
           <td className="td-actions text-right">
             <OverlayTrigger placement="top" overlay={edit}>
               <Button bsStyle="info" simple type="button" bsSize="xs" onClick={this.handleModalShowClick}>
