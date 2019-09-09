@@ -1,44 +1,18 @@
-import React, { Component } from "react";
+import React, { Component, useEffect } from "react";
 import { Tooltip, OverlayTrigger } from "react-bootstrap";
 import Checkbox from "components/CustomCheckbox/CustomCheckbox.jsx";
 import Button from "components/CustomButton/CustomButton.jsx";
-import DetailModal from "components/Modal/Modal.jsx";
+import DetailModal from "components/Modal/Modal.jsx"
 
-export class Tasks extends Component {
+export function Tasks() {
 
-  constructor(props) {
-    super(props);
-    this.handleModalShowClick = this.handleModalShowClick.bind(this);
-    this.handleModalCloseClick = this.handleModalCloseClick.bind(this);
-    this.state = {
-      showModal: false,
-      }
-    }
+  const [modalShow, setModalShow] = React.useState(false);
 
-  handleModalShowClick(e) {
-    e.preventDefault();
-    this.setState({
-      showModal: true
-    })
-  }
+    let tasks = [];
 
-  handleModalCloseClick() {
-    this.setState({
-      showModal: false
-    })
-  }
-
-  handleCheckbox = event => {
-    const target = event.target;
-    console.log(event.target);
-    this.setState({
-      [target.name]: target.checked
-    });
-  };
-  render() {
+    
     const edit = <Tooltip id="edit_tooltip">View Details</Tooltip>;
     const remove = <Tooltip id="remove_tooltip">Remove</Tooltip>;
-    const { showModal } = this.state;
     
     const tasks_title = [
       ['ipKAU456789876543456787iuygbhjuygfvg789767887676765', "20,000", "10 days"],
@@ -48,7 +22,7 @@ export class Tasks extends Component {
       ['ipKAU456789876543456787iuygbhjuygfvg789767887676765', "35,000", "2 days"],
       ["ipKAU456789876543456787iuygbhjuygfvg789767887676765", "15,000", "4 days"]
     ];
-    var tasks = [];
+
     var number;
     for (var i = 0; i < tasks_title.length; i++) {
       number = "checkbox" + i;
@@ -65,7 +39,7 @@ export class Tasks extends Component {
           <td>{tasks_title[i][2]}</td>
           <td className="td-actions text-right">
             <OverlayTrigger placement="top" overlay={edit}>
-              <Button bsStyle="info" simple type="button" bsSize="xs" onClick={this.handleModalShowClick}>
+              <Button bsStyle="info" simple type="button" bsSize="xs" onClick={() => setModalShow(true)}>
                 <i className="fa fa-edit" />
               </Button>
             </OverlayTrigger>
@@ -76,13 +50,20 @@ export class Tasks extends Component {
               </Button>
             </OverlayTrigger>
 
-            {showModal ? (<DetailModal handleModalCloseClick={this.handleModalCloseClick} />) : null}
+            <DetailModal
+              show={modalShow}
+              onHide={() => setModalShow(false)}
+              heading="Borrower Details"
+              address={tasks_title[i][0]}
+              amount={tasks_title[i][1]}
+              duration={tasks_title[i][2]}
+              creditScore="A"
+            />
+
           </td>
         </tr>
       );
     }
-    return <tbody>{tasks}</tbody>;
-  }
-}
 
-export default Tasks;
+    return <tbody>{tasks}</tbody>;
+}
