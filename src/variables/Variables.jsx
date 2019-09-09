@@ -253,6 +253,24 @@ const tdArray = [
   ["5", "01-09-2019", "30,300", "Processing"],
 ];
 
+const thBorrowersArray = ["Borrowed From", "Date", "Amount Borrowed", "Amount Paid", "Status"];
+const tdBorrowersArray = [
+  ["ipKAU123456789", "02-09-2019", "10,500", "10,500","Paid"],
+  ["ipKAU123456789", "01-09-2019", "12,500", "12,500","Paid"],
+  ["ipKAU123456789", "01-09-2019", "30,650", "0","Defaulted"],
+  ["ipKAU123456789", "01-09-2019", "90,250", "90,250","Paid"],
+  ["ipKAU123456789", "01-09-2019", "30,300", "30,300","Paid"],
+];
+
+const thLendersArray = ["Lent To", "Date", "Amount Lent", "Amount Paid Back", "Interest Collected"];
+const tdLendersArray = [
+  ["ipKAU123456789", "02-09-2019", "10,000", "10,500","500"],
+  ["ipKAU123456789", "01-09-2019", "12,000", "12,500","500"],
+  ["ipKAU123456789", "01-09-2019", "30,000", "30,650","650"],
+  ["ipKAU123456789", "01-09-2019", "90,000", "90,250","250"],
+  ["ipKAU123456789", "01-09-2019", "30,000", "30,300","300"],
+];
+
 //
 // //
 // // // For icons
@@ -589,5 +607,9 @@ module.exports = {
   dataBar,
   optionsBar,
   responsiveBar,
+  thBorrowersArray,
+  tdBorrowersArray,
+  thLendersArray,
+  tdLendersArray,
   legendBar // For charts (Dashboard view)
 };

@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Grid, Row, Col } from "react-bootstrap";
+import { Table } from "react-bootstrap";
 
 import { Card } from "components/Card/Card.jsx";
 import { StatsCard } from "components/StatsCard/StatsCard.jsx";
@@ -7,16 +8,8 @@ import { Tasks } from "components/Tasks/Tasks.jsx";
 
 
 import {
-  dataPie,
-  legendPie,
-  dataSales,
-  optionsSales,
-  responsiveSales,
-  legendSales,
-  dataBar,
-  optionsBar,
-  responsiveBar,
-  legendBar
+  thLendersArray,
+  tdLendersArray
 } from "variables/Variables.jsx";
 
 class Lending extends Component {
@@ -47,7 +40,7 @@ class Lending extends Component {
             <Col lg={3} sm={6}>
               <StatsCard
                 bigIcon={<i className="pe-7s-cash text-info" />}
-                statsText="Total Interest Accrued"
+                statsText="Total Interest Earned"
                 statsValue="5K BNU"
                 statsIcon={<i className="fa fa-clock-o" />}
                 statsIconText="In the last hour"
@@ -56,10 +49,10 @@ class Lending extends Component {
             <Col lg={3} sm={6}>
               <StatsCard
                 bigIcon={<i className="pe-7s-hourglass text-info" />}
-                statsText="Running Interest Rate"
+                statsText="Current Interest Rate"
                 statsValue="0.7%"
-                statsIcon={<i className="fa fa-refresh" />}
-                statsIconText="Updated now"
+                statsIcon={<i className="pe-7s-info" />}
+                statsIconText="see how it's calculated"
               />
             </Col>
             <Col lg={3} sm={6}>
@@ -67,8 +60,8 @@ class Lending extends Component {
                 bigIcon={<i className="pe-7s-id text-success" />}
                 statsText="Lending Rank"
                 statsValue="A"
-                statsIcon={<i className="fa fa-refresh" />}
-                statsIconText="Updated now"
+                statsIcon={<i className="pe-7s-info" />}
+                statsIconText="see how it's calculated"
               />
             </Col>
           </Row>
@@ -89,6 +82,39 @@ class Lending extends Component {
                 }
               />
             </Col>
+          </Row>
+
+          <Row>
+            <Col md={12}>
+              <Card
+                title="Lending History"
+                category="Summary of all the lending history"
+                ctTableFullWidth
+                ctTableResponsive
+                content={
+                  <Table striped hover>
+                    <thead>
+                      <tr>
+                        {thLendersArray.map((prop, key) => {
+                          return <th key={key}>{prop}</th>;
+                        })}
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {tdLendersArray.map((prop, key) => {
+                        return (
+                          <tr key={key}>
+                            {prop.map((prop, key) => {
+                              return <td key={key}>{prop}</td>;
+                            })}
+                          </tr>
+                        );
+                      })}
+                    </tbody>
+                  </Table>
+                }
+              />
+              </Col>
           </Row>
         </Grid>
       </div>

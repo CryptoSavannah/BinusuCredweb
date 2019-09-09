@@ -19,6 +19,7 @@ import {
   legendBar
 } from "variables/Variables.jsx";
 
+
 class Dashboard extends Component {
   createLegend(json) {
     var legend = [];
