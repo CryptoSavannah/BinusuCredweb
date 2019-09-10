@@ -3,6 +3,7 @@ import { Tooltip, OverlayTrigger } from "react-bootstrap";
 import Checkbox from "components/CustomCheckbox/CustomCheckbox.jsx";
 import Button from "components/CustomButton/CustomButton.jsx";
 import DetailModal from "components/Modal/Modal.jsx"
+import { Link } from "react-router-dom";
 
 export function Tasks() {
 
@@ -34,7 +35,7 @@ export function Tasks() {
               isChecked={i === 1 || i === 2 ? true : false}
             />
           </td>
-          <td>{tasks_title[i][0]}</td>
+          <td><Link to="/admin/confirm_details">{tasks_title[i][0]}</Link></td>
           <td>{tasks_title[i][1]}</td>
           <td>{tasks_title[i][2]}</td>
           <td className="td-actions text-right">
