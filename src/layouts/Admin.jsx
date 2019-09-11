@@ -179,14 +179,13 @@ class Admin extends Component {
   }
   
   render() {
-    const { currentUser } = this.state;
+
     return (
       <div className="wrapper">
         <NotificationSystem ref="notificationSystem" style={style} />
-        {currentUser &&
         <Sidebar {...this.props} routes={routes} image={this.state.image}
         color={this.state.color}
-        hasImage={this.state.hasImage}/>}
+        hasImage={this.state.hasImage}/>
         <div id="main-panel" className="main-panel" ref="mainPanel">
           <AdminNavbar
             {...this.props}

@@ -13,6 +13,7 @@ class AdminNavbarLinks extends Component {
   logout() {
     authenticationService.logout();
     history.push('/login');
+    window.location.reload(true);
   }
 
   render() {
