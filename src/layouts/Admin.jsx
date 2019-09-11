@@ -1,10 +1,14 @@
 import React, { Component } from "react";
-import { Route, Switch } from "react-router-dom";
+import { Router ,Route, Switch } from "react-router-dom";
 import NotificationSystem from "react-notification-system";
 
 import AdminNavbar from "components/Navbars/AdminNavbar";
 import Footer from "components/Footer/Footer";
 import Sidebar from "components/Sidebar/Sidebar";
+import { authenticationService } from 'services/authenticationService';
+import { PrivateRoute } from 'components/PrivateRoute/PrivateRoute.jsx';
+import { history } from "helpers/history";
+import LoginPage from "layouts/Login.jsx";
 
 import { style } from "variables/Variables.jsx";
 
@@ -21,7 +25,8 @@ class Admin extends Component {
       image: image,
       color: "black",
       hasImage: true,
-      fixedClasses: "dropdown show-dropdown open"
+      fixedClasses: "dropdown show-dropdown open",
+      currentUser: null
     };
   }
   handleNotificationClick = position => {
@@ -79,7 +84,7 @@ class Admin extends Component {
     return links.map((prop, key) => {
       if (prop.layout === "/admin") {
         return (
-          <Route
+          <PrivateRoute
             path={prop.layout + prop.path}
             render={props => (
               <prop.component
@@ -124,6 +129,8 @@ class Admin extends Component {
     }
   };
   componentDidMount() {
+    authenticationService.currentUser.subscribe(x => this.setState({ currentUser: x }));
+
     this.setState({ _notificationSystem: this.refs.notificationSystem });
     var _notificationSystem = this.refs.notificationSystem;
     var color = Math.floor(Math.random() * 4 + 1);
@@ -170,7 +177,9 @@ class Admin extends Component {
       this.refs.mainPanel.scrollTop = 0;
     }
   }
+  
   render() {
+
     return (
       <div className="wrapper">
         <NotificationSystem ref="notificationSystem" style={style} />
@@ -185,7 +194,9 @@ class Admin extends Component {
           <Switch>
             {this.getRoutes(routes)}
             {this.getRoutes(links)}
+            <Route path="/login" component={LoginPage} />
           </Switch>
+  
           <Footer />
         </div>
       </div>

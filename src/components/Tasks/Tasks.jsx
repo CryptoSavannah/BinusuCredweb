@@ -16,12 +16,12 @@ export function Tasks() {
     const remove = <Tooltip id="remove_tooltip">Remove</Tooltip>;
     
     const tasks_title = [
-      ['ipKAU456789876543456787iuygbhjuygfvg789767887676765', "20,000", "10 days"],
-      ["ipKAU456789876543456787iuygbhjuygfvg789767887676765", "25,000", "15 days"],
-      ["ipKAU456789876543456787iuygbhjuygfvg789767887676765", "10,000", "30 days"],
-      ["ipKAU456789876543456787iuygbhjuygfvg789767887676765", "30,000", "12 days"],
-      ['ipKAU456789876543456787iuygbhjuygfvg789767887676765', "35,000", "2 days"],
-      ["ipKAU456789876543456787iuygbhjuygfvg789767887676765", "15,000", "4 days"]
+      ['ipKAU456789876543456787iuygbhjuygfvg789767887676765', "20,000", "2.2%", "10 days", "700"],
+      ["ipKAU456789876543456787iuygbhjuygfvg789767887676765", "25,000", "1.8%", "15 days", "700"],
+      ["ipKAU456789876543456787iuygbhjuygfvg789767887676765", "10,000", "1.5%", "30 days", "620"],
+      ["ipKAU456789876543456787iuygbhjuygfvg789767887676765", "30,000", "1.2%", "12 days", "615"],
+      ['ipKAU456789876543456787iuygbhjuygfvg789767887676765', "35,000", "0.7%", "2 days", "600"],
+      ["ipKAU456789876543456787iuygbhjuygfvg789767887676765", "15,000", "2.5%", "4 days", "750"]
     ];
 
     var number;
@@ -38,12 +38,9 @@ export function Tasks() {
           <td><Link to="/admin/confirm_details">{tasks_title[i][0]}</Link></td>
           <td>{tasks_title[i][1]}</td>
           <td>{tasks_title[i][2]}</td>
+          <td>{tasks_title[i][3]}</td>
+          <td>{tasks_title[i][4]}</td>
           <td className="td-actions text-right">
-            <OverlayTrigger placement="top" overlay={edit}>
-              <Button bsStyle="info" simple type="button" bsSize="xs" onClick={() => setModalShow(true)}>
-                <i className="fa fa-edit" />
-              </Button>
-            </OverlayTrigger>
 
             <OverlayTrigger placement="top" overlay={remove}>
               <Button bsStyle="danger" simple type="button" bsSize="xs">

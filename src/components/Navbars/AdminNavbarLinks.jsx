@@ -1,7 +1,21 @@
 import React, { Component } from "react";
 import { NavItem, Nav, NavDropdown, MenuItem } from "react-bootstrap";
+import { history } from 'helpers/history';
+import { authenticationService } from 'services/authenticationService';
 
 class AdminNavbarLinks extends Component {
+
+  constructor(props){
+    super(props);
+
+  }
+
+  logout() {
+    authenticationService.logout();
+    history.push('/login');
+    window.location.reload(true);
+  }
+
   render() {
     const notification = (
       <div>
@@ -52,7 +66,7 @@ class AdminNavbarLinks extends Component {
             <MenuItem divider />
             <MenuItem eventKey={2.5}>Separated link</MenuItem>
           </NavDropdown>
-          <NavItem eventKey={3} href="#">
+          <NavItem eventKey={3} onClick={this.logout}>
             Log out
           </NavItem>
         </Nav>

@@ -32,7 +32,7 @@ class Lending extends Component {
               <StatsCard
                 bigIcon={<i className="pe-7s-drawer text-success" />}
                 statsText="Lending Balance"
-                statsValue="500K BNU"
+                statsValue="500K"
                 statsIcon={<i className="fa fa-refresh" />}
                 statsIconText="Updated now"
               />
@@ -40,10 +40,19 @@ class Lending extends Component {
             <Col lg={3} sm={6}>
               <StatsCard
                 bigIcon={<i className="pe-7s-cash text-info" />}
-                statsText="Total Interest Earned"
-                statsValue="5K BNU"
+                statsText="Lent Money"
+                statsValue="50K"
                 statsIcon={<i className="fa fa-clock-o" />}
                 statsIconText="In the last hour"
+              />
+            </Col>
+            <Col lg={3} sm={6}>
+              <StatsCard
+                bigIcon={<i className="pe-7s-cash text-success" />}
+                statsText="Total Interest(Open Loans)"
+                statsValue="5K"
+                statsIcon={<i className="pe-7s-info" />}
+                statsIconText="see how it's calculated"
               />
             </Col>
             <Col lg={3} sm={6}>
@@ -51,15 +60,6 @@ class Lending extends Component {
                 bigIcon={<i className="pe-7s-hourglass text-info" />}
                 statsText="Current Interest Rate"
                 statsValue="0.7%"
-                statsIcon={<i className="pe-7s-info" />}
-                statsIconText="see how it's calculated"
-              />
-            </Col>
-            <Col lg={3} sm={6}>
-              <StatsCard
-                bigIcon={<i className="pe-7s-id text-success" />}
-                statsText="Lending Rank"
-                statsValue="A"
                 statsIcon={<i className="pe-7s-info" />}
                 statsIconText="see how it's calculated"
               />
@@ -76,6 +76,14 @@ class Lending extends Component {
                 content={
                   <div className="table-full-width">
                     <table className="table">
+                      <thead>
+                        <th>*</th>
+                        <th>Borrower Address</th>
+                        <th>Amount</th>
+                        <th>Interest</th>
+                        <th>Duration</th>
+                        <th>Credit Score</th>
+                      </thead>
                       <Tasks />
                     </table>
                   </div>
