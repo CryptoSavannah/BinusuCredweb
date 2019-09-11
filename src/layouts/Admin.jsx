@@ -1,13 +1,14 @@
 import React, { Component } from "react";
-import { Route, Switch } from "react-router-dom";
+import { Router ,Route, Switch } from "react-router-dom";
 import NotificationSystem from "react-notification-system";
 
 import AdminNavbar from "components/Navbars/AdminNavbar";
 import Footer from "components/Footer/Footer";
 import Sidebar from "components/Sidebar/Sidebar";
-import { history } from 'helpers/history';
 import { authenticationService } from 'services/authenticationService';
 import { PrivateRoute } from 'components/PrivateRoute/PrivateRoute.jsx';
+import { history } from "helpers/history";
+import LoginPage from "layouts/Login.jsx";
 
 import { style } from "variables/Variables.jsx";
 
@@ -83,7 +84,7 @@ class Admin extends Component {
     return links.map((prop, key) => {
       if (prop.layout === "/admin") {
         return (
-          <Route
+          <PrivateRoute
             path={prop.layout + prop.path}
             render={props => (
               <prop.component
@@ -178,6 +179,7 @@ class Admin extends Component {
   }
   
   render() {
+    const { currentUser } = this.state;
     return (
       <div className="wrapper">
         <NotificationSystem ref="notificationSystem" style={style} />
@@ -189,10 +191,13 @@ class Admin extends Component {
             {...this.props}
             brandText={this.getBrandText(this.props.location.pathname)}
           />
-          <Switch>
-            {this.getRoutes(routes)}
-            {this.getRoutes(links)}
-          </Switch>
+          <Router history={history}>
+            <Switch>
+              {this.getRoutes(routes)}
+              {this.getRoutes(links)}
+              <Route path="/login" component={LoginPage} />
+            </Switch>
+          </Router>
           <Footer />
         </div>
       </div>
