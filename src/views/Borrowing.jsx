@@ -60,7 +60,7 @@ class Borrowing extends Component {
             <Col lg={3} sm={6}>
               <StatsCard
                 bigIcon={<i className="pe-7s-refresh-2 text-info" />}
-                statsText="Running Interest Rate"
+                statsText="Market Interest Rate"
                 statsValue="0.7%"
                 statsIcon={<i className="fa fa-info" />}
                 statsIconText="See how it's calculated"
@@ -109,7 +109,7 @@ class Borrowing extends Component {
                           label: "Repayment Date",
                           type: "date",
                           bsClass: "form-control",
-                          placeholder: "Repayment dATE",
+                          placeholder: "Repayment Date",
                         }
                       ]}
                     />
