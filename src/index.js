@@ -10,13 +10,18 @@ import "./assets/css/demo.css";
 import "./assets/css/pe-icon-7-stroke.css";
 
 import AdminLayout from "layouts/Admin.jsx";
+import LoginPage from "layouts/Login.jsx";
+
+import { configureFakeBackend } from 'helpers/mockBackend';
+configureFakeBackend();
 
 
 ReactDOM.render(
   <BrowserRouter>
     <Switch>
       <Route path="/admin" render={props => <AdminLayout {...props} />} />
-      <Redirect from="/" to="/admin/dashboard" />
+      {/* <Redirect from="/" to="/admin/dashboard" /> */}
+      <Route path="/login" component={LoginPage}/>
     </Switch>
   </BrowserRouter>,
   document.getElementById("root")

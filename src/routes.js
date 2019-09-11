@@ -4,6 +4,7 @@ import TableList from "views/TableList.jsx";
 import Typography from "views/Typography.jsx";
 import Icons from "views/Icons.jsx";
 import Notifications from "views/Notifications.jsx";
+import ChoiceTabs from "views/ChoiceTabs.jsx";
 
 const dashboardRoutes = [
   {
@@ -11,6 +12,13 @@ const dashboardRoutes = [
     name: "Dashboard",
     icon: "pe-7s-graph",
     component: Dashboard,
+    layout: "/admin"
+  },
+  {
+    path: "/choose_track",
+    name: "Choice Tabs",
+    icon: "pe-7s-graph",
+    component: ChoiceTabs,
     layout: "/admin"
   },
   // {
