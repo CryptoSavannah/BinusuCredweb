@@ -32,7 +32,7 @@ class Lending extends Component {
               <StatsCard
                 bigIcon={<i className="pe-7s-drawer text-success" />}
                 statsText="Lending Balance"
-                statsValue="500K BNU"
+                statsValue="500K"
                 statsIcon={<i className="fa fa-refresh" />}
                 statsIconText="Updated now"
               />
@@ -41,7 +41,7 @@ class Lending extends Component {
               <StatsCard
                 bigIcon={<i className="pe-7s-cash text-info" />}
                 statsText="Lent Money"
-                statsValue="50K BNU"
+                statsValue="50K"
                 statsIcon={<i className="fa fa-clock-o" />}
                 statsIconText="In the last hour"
               />
@@ -50,7 +50,7 @@ class Lending extends Component {
               <StatsCard
                 bigIcon={<i className="pe-7s-cash text-success" />}
                 statsText="Total Interest(Open Loans)"
-                statsValue="5K BNU"
+                statsValue="5K"
                 statsIcon={<i className="pe-7s-info" />}
                 statsIconText="see how it's calculated"
               />
@@ -76,6 +76,14 @@ class Lending extends Component {
                 content={
                   <div className="table-full-width">
                     <table className="table">
+                      <thead>
+                        <th>*</th>
+                        <th>Borrower Address</th>
+                        <th>Amount</th>
+                        <th>Interest</th>
+                        <th>Duration</th>
+                        <th>Credit Score</th>
+                      </thead>
                       <Tasks />
                     </table>
                   </div>

@@ -43,7 +43,7 @@ class Borrowing extends Component {
               <StatsCard
                 bigIcon={<i className="pe-7s-credit text-warning" />}
                 statsText="Funds Owed"
-                statsValue="50K BNU"
+                statsValue="50K"
                 statsIcon={<i className="fa fa-refresh" />}
                 statsIconText="Updated now"
               />
@@ -52,7 +52,7 @@ class Borrowing extends Component {
               <StatsCard
                 bigIcon={<i className="pe-7s-cash text-danger" />}
                 statsText="Borrowing Power Left"
-                statsValue="5K BNU"
+                statsValue="5K"
                 statsIcon={<i className="fa fa-clock-o" />}
                 statsIconText="In the last hour"
               />
