@@ -1,6 +1,7 @@
 import Lending from "views/Lending.jsx";
 import Borrowing from "views/Borrowing.jsx";
 import LendingConfirmDetails from "views/LendingConfirmDetails.jsx";
+import PayCredit from "views/PayCredit.jsx";
 
 const dashboardLinks = [
   {
@@ -22,6 +23,13 @@ const dashboardLinks = [
     name: "ConfirmDetails",
     icon: "pe-7s-bell",
     component: LendingConfirmDetails,
+    layout: "/admin"
+  },
+  {
+    path: "/pay_credit",
+    name: "PayCredit",
+    icon: "pe-7s-bell",
+    component: PayCredit,
     layout: "/admin"
   },
 ];

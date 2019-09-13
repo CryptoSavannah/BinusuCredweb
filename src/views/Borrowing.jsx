@@ -9,7 +9,7 @@ import { FormInputs } from "components/FormInputs/FormInputs.jsx";
 import { Card } from "components/Card/Card.jsx";
 import { StatsCard } from "components/StatsCard/StatsCard.jsx";
 import { thArray, tdArray, thBorrowersArray, tdBorrowersArray } from "variables/Variables.jsx";
-import { Tasks } from "components/Tasks/Tasks.jsx";
+import { Tasks2 } from "components/Tasks/Tasks2.jsx";
 import {
   dataPie,
   legendPie,
@@ -73,6 +73,28 @@ class Borrowing extends Component {
                 statsValue="650"
                 statsIcon={<i className="fa fa-info" />}
                 statsIconText="See how it's calculated"
+              />
+            </Col>
+          </Row>
+          <Row>
+            <Col md={12}>
+            <Card
+                title="Unpaid Loans"
+                stats="Updated 3 minutes ago"
+                statsIcon="fa fa-history"
+                content={
+                  <div className="table-full-width">
+                    <table className="table">
+                      <thead>
+                        <th>*</th>
+                        <th>Lender's Address</th>
+                        <th>Amount to Pay</th>
+                        <th>Loan Duration Left</th>
+                      </thead>
+                      <Tasks2 />
+                    </table>
+                  </div>
+                }
               />
             </Col>
           </Row>
