@@ -2,10 +2,9 @@ import React, { Component, useEffect } from "react";
 import { Tooltip, OverlayTrigger } from "react-bootstrap";
 import Checkbox from "components/CustomCheckbox/CustomCheckbox.jsx";
 import Button from "components/CustomButton/CustomButton.jsx";
-import DetailModal from "components/Modal/Modal.jsx"
 import { Link } from "react-router-dom";
 
-export function Tasks() {
+export function Tasks2() {
 
   const [modalShow, setModalShow] = React.useState(false);
 
@@ -13,15 +12,11 @@ export function Tasks() {
 
     
     const edit = <Tooltip id="edit_tooltip">View Details</Tooltip>;
-    const remove = <Tooltip id="remove_tooltip">Remove</Tooltip>;
+    const remove = <Tooltip id="pay_loan">Pay Loan</Tooltip>;
     
     const tasks_title = [
-      ['ipKAU456789876543456787iuygbhjuygfvg789767887676765', "20,000", "2.2%", "10 days", "700"],
-      ["ipKAU456789876543456787iuygbhjuygfvg789767887676765", "25,000", "1.8%", "15 days", "700"],
-      ["ipKAU456789876543456787iuygbhjuygfvg789767887676765", "10,000", "1.5%", "30 days", "620"],
-      ["ipKAU456789876543456787iuygbhjuygfvg789767887676765", "30,000", "1.2%", "12 days", "615"],
-      ['ipKAU456789876543456787iuygbhjuygfvg789767887676765', "35,000", "0.7%", "2 days", "600"],
-      ["ipKAU456789876543456787iuygbhjuygfvg789767887676765", "15,000", "2.5%", "4 days", "750"]
+      ['ipKAU456789876543456787iuygbhjuygfvg789767887676765', "20,500", "10 days"],
+      ["ipKAU456789876543456787iuygbhjuygfvg789767887676765", "25,500", "15 days"],
     ];
 
     var number;
@@ -38,8 +33,6 @@ export function Tasks() {
           <td><Link to="/admin/confirm_details">{tasks_title[i][0]}</Link></td>
           <td>{tasks_title[i][1]}</td>
           <td>{tasks_title[i][2]}</td>
-          <td>{tasks_title[i][3]}</td>
-          <td>{tasks_title[i][4]}</td>
           <td className="td-actions text-right">
 
             <OverlayTrigger placement="top" overlay={remove}>
