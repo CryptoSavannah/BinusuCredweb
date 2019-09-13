@@ -41,7 +41,7 @@ class Dashboard extends Component {
                 cardLink="#"
                 bigIcon={<i className="pe-7s-server text-warning" />}
                 statsText="Available Funds to Borrow"
-                statsValue="450M BNU"
+                statsValue="450M"
                 statsIcon={<i className="fa fa-refresh" />}
                 statsIconText="Updated now"
               />
@@ -51,7 +51,7 @@ class Dashboard extends Component {
                 cardLink="/admin/lending"
                 bigIcon={<i className="pe-7s-cash text-danger" />}
                 statsText="I am a Lender"
-                statsValue="500K BNU"
+                statsValue="500K"
                 statsIcon={<i className="fa fa-clock-o" />}
                 statsIconText="In the last hour"
               />

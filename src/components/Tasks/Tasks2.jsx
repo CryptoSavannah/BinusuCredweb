@@ -30,14 +30,14 @@ export function Tasks2() {
               isChecked={i === 1 || i === 2 ? true : false}
             />
           </td>
-          <td><Link to="/admin/confirm_details">{tasks_title[i][0]}</Link></td>
+          <td><Link to="/admin/pay_credit">{tasks_title[i][0]}</Link></td>
           <td>{tasks_title[i][1]}</td>
           <td>{tasks_title[i][2]}</td>
           <td className="td-actions text-right">
 
             <OverlayTrigger placement="top" overlay={remove}>
               <Button bsStyle="danger" simple type="button" bsSize="xs">
-                <i className="fa fa-times" />
+                <i className="pe-7s-play" />
               </Button>
             </OverlayTrigger>
 

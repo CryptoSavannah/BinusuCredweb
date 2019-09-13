@@ -26,7 +26,7 @@ export default function LendingConfirmDetails() {
                 <StatsCard
                     bigIcon={<i className="pe-7s-cash text-danger" />}
                     statsText="Credit Amount"
-                    statsValue="10K BNU"
+                    statsValue="10K"
                     statsIcon={<i className="fa fa-clock-o" />}
                     statsIconText="In the last hour"
                 />
