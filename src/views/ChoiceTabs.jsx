@@ -5,6 +5,8 @@ import { StatsCard } from "components/StatsCard/StatsCard.jsx";
 import { userService } from "services/userService";
 import { authenticationService } from "services/authenticationService";
 
+
+
 class ChoiceTabs extends Component {
 
     constructor(props) {
@@ -16,10 +18,6 @@ class ChoiceTabs extends Component {
         };
     }
 
-    componentDidMount() {
-        userService.getAll().then(users => this.setState({ users }));
-    }
-
   
   render() {
     const { currentUser, users } = this.state;
@@ -29,7 +27,7 @@ class ChoiceTabs extends Component {
           <Row>
             <Col lg={3}></Col>
             <Col lg={6} sm={6}>
-              <h3>Welcome {currentUser.firstName}. Please Navigate Below</h3>
+              <h3>Welcome {currentUser.user_details.first_name} {currentUser.user_details.last_name}. Please Navigate Below</h3>
             </Col>
           </Row>
           <Row>

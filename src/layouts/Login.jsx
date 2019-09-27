@@ -41,6 +41,8 @@ class LoginPage extends React.Component {
                                 user => {
                                     const { from } = this.props.location.state || { from: { pathname: "/admin/choose_track" } };
                                     this.props.history.push(from);
+                                    
+                                    window.localStorage.setItem('data', JSON.stringify(user))
                                 },
                                 error => {
                                     setSubmitting(false);
