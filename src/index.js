@@ -11,6 +11,8 @@ import "./assets/css/pe-icon-7-stroke.css";
 
 import AdminLayout from "layouts/Admin.jsx";
 import LoginPage from "layouts/Login.jsx";
+import RegisterPage from "layouts/Register.jsx";
+
 
 import { configureFakeBackend } from 'helpers/mockBackend';
 configureFakeBackend();
@@ -21,6 +23,7 @@ ReactDOM.render(
     <Switch>
       <Route path="/admin" render={props => <AdminLayout {...props} />} />
       <Route path="/login" component={LoginPage}/>
+      <Route path="/register" component={RegisterPage}/>
       <Redirect from="/" to="/login" />
     </Switch>
   </BrowserRouter>,

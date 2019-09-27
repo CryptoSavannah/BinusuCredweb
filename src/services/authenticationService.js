@@ -1,12 +1,16 @@
 import { BehaviorSubject } from 'rxjs';
+import axios from 'axios';
 
 // import config from 'config';
 import { handleResponse } from 'helpers/handle-response';
 
 //remove this after
 const apiUrl = process.env.REACT_APP_MOCK_URL;
+console.log(apiUrl)
+const remoteApiUrl = process.env.REACT_APP_API_URL
+console.log(remoteApiUrl)
 
-const currentUserSubject = new BehaviorSubject(JSON.parse(localStorage.getItem('currentUser')));
+const currentUserSubject = new BehaviorSubject(JSON.parse(localStorage.getItem('data')));
 
 export const authenticationService = {
     login,
@@ -16,16 +20,27 @@ export const authenticationService = {
 };
 
 function login(username, password) {
+
+    // return axios.post(`${remoteApiUrl}/auth/login/`, { username, password })
+    //     .then(res => {
+    //         let user = res.data.data.user_details
+    //         console.log(res.data.data)
+    //         localStorage.setItem('currentUser', user);
+    //         currentUserSubject.next(user);
+    //         return user
+    //     })
     const requestOptions = {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ username, password })
     };
 
-    return fetch(`${apiUrl}/users/authenticate`, requestOptions)
-        .then(handleResponse)
-        .then(user => {
-            // store user details and jwt token in local storage to keep user logged in between page refreshes
+    return fetch(`${remoteApiUrl}/auth/login/`, requestOptions)
+        .then(results => {
+            return results.json()
+        })
+        .then(data => {
+            const user = data.data;
             localStorage.setItem('currentUser', JSON.stringify(user));
             currentUserSubject.next(user);
 
@@ -35,6 +50,6 @@ function login(username, password) {
 
 function logout() {
     // remove user from local storage to log user out
-    localStorage.removeItem('currentUser');
+    localStorage.removeItem('data');
     currentUserSubject.next(null);
 }

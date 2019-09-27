@@ -2,12 +2,11 @@ import React from 'react';
 import { Formik, Field, Form, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import { Grid, Row, Col } from "react-bootstrap";
-import { Card } from '../components/Card/Card.jsx'
+import { Card } from '../components/Card/Card.jsx';
 
 import { authenticationService } from 'services/authenticationService';
-import { Link } from "react-router-dom";
 
-class LoginPage extends React.Component {
+class RegisterPage extends React.Component {
     constructor(props) {
         super(props);
 
@@ -21,8 +20,7 @@ class LoginPage extends React.Component {
         return (
             <div>
                 <div className="alert alert-info">
-                    Username: test<br />
-                    Password: test
+                    Binusu Credit
                 </div>
                 
                 <Formik
@@ -31,8 +29,8 @@ class LoginPage extends React.Component {
                         password: ''
                     }}
                     validationSchema={Yup.object().shape({
-                        username: Yup.string().required('Username is required'),
-                        password: Yup.string().required('Password is required')
+                        username: Yup.string().required('Full Name is required'),
+                        password: Yup.string().required('This field is is required')
                     })}
                     onSubmit={({ username, password }, { setStatus, setSubmitting }) => {
                         setStatus();
@@ -41,8 +39,6 @@ class LoginPage extends React.Component {
                                 user => {
                                     const { from } = this.props.location.state || { from: { pathname: "/admin/choose_track" } };
                                     this.props.history.push(from);
-                                    
-                                    window.localStorage.setItem('data', JSON.stringify(user))
                                 },
                                 error => {
                                     setSubmitting(false);
@@ -54,16 +50,26 @@ class LoginPage extends React.Component {
                         <div className="content">
                             <Grid fluid>
                                 <Row>
-                                    <Col lg={4} sm={6}></Col>
-                                    <Col lg={4} sm={6}>
+                                    <Col lg={4} sm={12}></Col>
+                                    <Col lg={4} sm={12}>
                                         <Card
-                                        title="LOGIN TO BINUSU CREDIT"
+                                        title="REGISTER TO BINUSU CREDIT"
                                         content={
                                         <Form>
                                             <div className="form-group">
-                                                <label htmlFor="username">Username</label>
+                                                <label htmlFor="username">Full Name</label>
                                                 <Field name="username" type="text" className={'form-control' + (errors.username && touched.username ? ' is-invalid' : '')} />
                                                 <ErrorMessage name="username" component="div" className="invalid-feedback" />
+                                            </div>
+                                            <div className="form-group">
+                                                <label htmlFor="password">Address</label>
+                                                <Field name="password" type="password" className={'form-control' + (errors.password && touched.password ? ' is-invalid' : '')} />
+                                                <ErrorMessage name="password" component="div" className="invalid-feedback" />
+                                            </div>
+                                            <div className="form-group">
+                                                <label htmlFor="password">Email</label>
+                                                <Field name="password" type="password" className={'form-control' + (errors.password && touched.password ? ' is-invalid' : '')} />
+                                                <ErrorMessage name="password" component="div" className="invalid-feedback" />
                                             </div>
                                             <div className="form-group">
                                                 <label htmlFor="password">Password</label>
@@ -71,7 +77,17 @@ class LoginPage extends React.Component {
                                                 <ErrorMessage name="password" component="div" className="invalid-feedback" />
                                             </div>
                                             <div className="form-group">
-                                                <button type="submit" className="btn btn-primary" disabled={isSubmitting}>Login</button>
+                                                <label htmlFor="password">NIN Number</label>
+                                                <Field name="password" type="password" className={'form-control' + (errors.password && touched.password ? ' is-invalid' : '')} />
+                                                <ErrorMessage name="password" component="div" className="invalid-feedback" />
+                                            </div>
+                                            <div className="form-group">
+                                                <label htmlFor="password">Refferal ID</label>
+                                                <Field name="password" type="password" className={'form-control' + (errors.password && touched.password ? ' is-invalid' : '')} />
+                                                <ErrorMessage name="password" component="div" className="invalid-feedback" />
+                                            </div>
+                                            <div className="form-group">
+                                                <button type="submit" className="btn btn-primary" disabled={isSubmitting}>Register</button>
                                                 {isSubmitting &&
                                                     <img src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
                                                 }
@@ -79,7 +95,6 @@ class LoginPage extends React.Component {
                                             {status &&
                                                 <div className={'alert alert-danger'}>{status}</div>
                                             }
-                                            <div className='pull-right'><Link to="/register">Register Here</Link></div>
                                         </Form>
                                         }
                                         />
@@ -94,4 +109,4 @@ class LoginPage extends React.Component {
     }
 }
 
-export default LoginPage;
+export default RegisterPage;
