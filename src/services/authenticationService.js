@@ -5,7 +5,7 @@ import axios from 'axios';
 import { handleResponse } from 'helpers/handle-response';
 
 //remove this after
-const remoteApiUrl = process.env.REACT_APP_API_URL
+const remoteApiUrl = process.env.API_URL
 console.log(remoteApiUrl)
 
 const currentUserSubject = new BehaviorSubject(JSON.parse(localStorage.getItem('data')));
