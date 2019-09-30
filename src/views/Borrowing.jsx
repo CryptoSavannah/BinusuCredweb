@@ -5,6 +5,7 @@ import { Grid, Row, Col, Table,
     FormControl } from "react-bootstrap";
 import Button from "components/CustomButton/CustomButton.jsx";
 import { FormInputs } from "components/FormInputs/FormInputs.jsx";
+import axios from 'axios';
 
 import { Card } from "components/Card/Card.jsx";
 import { StatsCard } from "components/StatsCard/StatsCard.jsx";
@@ -23,7 +24,10 @@ import {
   legendBar
 } from "variables/Variables.jsx";
 
+const remoteApiUrl = process.env.REACT_APP_API_URL
+
 class Borrowing extends Component {
+
   createLegend(json) {
     var legend = [];
     for (var i = 0; i < json["names"].length; i++) {
@@ -85,12 +89,6 @@ class Borrowing extends Component {
                 content={
                   <div className="table-full-width">
                     <table className="table">
-                      <thead>
-                        <th>*</th>
-                        <th>Lender's Address</th>
-                        <th>Amount to Pay</th>
-                        <th>Loan Duration Left</th>
-                      </thead>
                       <Tasks2 />
                     </table>
                   </div>
