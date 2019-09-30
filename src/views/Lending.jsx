@@ -20,12 +20,43 @@ class Lending extends Component {
 
   state = {
     loans : [],
+    lender_history: [],
     currentUser: authenticationService.currentUserValue,
   }
 
   componentDidMount() {
+    this.fetchBorrowerLoanRequests();
+    this.fetchLendingHistory();
+  }
+
+  // componentDidUpdate(prevProps, prevState) {
+  //   if (prevState.loans !== this.state.loans) {
+  //     this.fetchBorrowerLoanRequests();
+  //   }
+  // }
+
+  fetchBorrowerLoanRequests = () => {
     axios.get(`${remoteApiUrl}/loans/`, { headers: { Authorization: 'Bearer '.concat(this.state.currentUser.token.token) }})
     .then(res => this.setState({ loans:res.data.data }))
+  }
+
+  fetchLendingHistory = () => {
+    const requestOptions = {
+      method: 'POST',
+      headers: { 
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer '.concat(this.state.currentUser.token.token) 
+      },
+      body: JSON.stringify({ address: this.state.currentUser.user_details.bnu_address})
+    };
+
+    fetch(`${remoteApiUrl}/loans/history/?role=lender`, requestOptions)
+      .then(results => {
+          return results.json()
+      })
+      .then(data => {
+        this.setState({ lender_history:data.data })
+      });
   }
 
   delLoan = (id) => {
@@ -43,7 +74,7 @@ class Lending extends Component {
     return legend;
   }
   render() {
-    const { currentUser, loans } = this.state;
+    const { currentUser, loans, lender_history } = this.state;
     return (
       <div className="content">
         <Grid fluid>
@@ -128,12 +159,14 @@ class Lending extends Component {
                       </tr>
                     </thead>
                     <tbody>
-                      {tdLendersArray.map((prop, key) => {
+                    {lender_history.map((prop, key) => {
                         return (
                           <tr key={key}>
-                            {prop.map((prop, key) => {
-                              return <td key={key}>{prop}</td>;
-                            })}
+                            <td>{prop.lending_address.slice(0, 40)}</td>
+                            <td>{prop.actual_payment_date}</td>
+                            <td>{prop.loan_amount}</td>
+                            <td>{prop.expected_amount}</td>
+                            <td>{prop.loan_status}</td>
                           </tr>
                         );
                       })}

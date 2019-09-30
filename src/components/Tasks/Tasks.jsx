@@ -13,7 +13,6 @@ export class Tasks extends Component {
     const edit = <Tooltip id="edit_tooltip">View Details</Tooltip>;
     const remove = <Tooltip id="remove_tooltip">Remove</Tooltip>;
 
-    var number;
     return this.props.loans.map((loan) => (
       <tbody>
         <tr key={loan.id}>

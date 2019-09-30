@@ -3,10 +3,12 @@ import { Grid, Row, Col, Table,
     FormGroup,
     ControlLabel,
     FormControl } from "react-bootstrap";
+import NotificationSystem from "react-notification-system";
 import Button from "components/CustomButton/CustomButton.jsx";
 import { FormInputs } from "components/FormInputs/FormInputs.jsx";
 import axios from 'axios';
 import { authenticationService } from "services/authenticationService";
+import { style } from "variables/Variables.jsx";
 
 import { Card } from "components/Card/Card.jsx";
 import { StatsCard } from "components/StatsCard/StatsCard.jsx";
@@ -31,27 +33,81 @@ class Borrowing extends Component {
 
   state = {
     submitted_loans: [],
+    borrower_history: [],
+    unpaidloans: [],
     currentUser: authenticationService.currentUserValue,
     amount: '',
     date: '',
+    expected_amount: '',
+    _notificationSystem: null,
   }
 
   componentDidMount() {
+    this.fetchLoanRequests();
+    this.fetchBorrowingHistory();
+    this.fetchUnpaidLoans();
+  }
+
+  // componentDidUpdate(prevProps, prevState) {
+  //   if (prevState.submitted_loans !== this.state.submitted_loans) {
+  //     this.fetchLoanRequests();
+  //   }
+  // }
+
+  fetchLoanRequests = () => {
     const requestOptions = {
       method: 'POST',
       headers: { 
         'Content-Type': 'application/json',
         'Authorization': 'Bearer '.concat(this.state.currentUser.token.token) 
       },
-      body: JSON.stringify({ borrowers_address: this.state.currentUser.user_details.bnu_address})
+      body: JSON.stringify({ address: this.state.currentUser.user_details.bnu_address})
     };
 
-    fetch(`${remoteApiUrl}/loans/requests/`, requestOptions)
+    fetch(`${remoteApiUrl}/loans/requests/?status=unapproved`, requestOptions)
       .then(results => {
           return results.json()
       })
       .then(data => {
         this.setState({ submitted_loans:data.data })
+      });
+  }
+
+  fetchBorrowingHistory = () => {
+    const requestOptions = {
+      method: 'POST',
+      headers: { 
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer '.concat(this.state.currentUser.token.token) 
+      },
+      body: JSON.stringify({ address: this.state.currentUser.user_details.bnu_address})
+    };
+
+    fetch(`${remoteApiUrl}/loans/history/?role=borrower`, requestOptions)
+      .then(results => {
+          return results.json()
+      })
+      .then(data => {
+        this.setState({ borrower_history:data.data })
+      });
+  }
+
+  fetchUnpaidLoans = () => {
+    const requestOptions = {
+      method: 'POST',
+      headers: { 
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer '.concat(this.state.currentUser.token.token) 
+      },
+      body: JSON.stringify({ address: this.state.currentUser.user_details.bnu_address})
+    };
+
+    fetch(`${remoteApiUrl}/loans/requests/?status=unpaid`, requestOptions)
+      .then(results => {
+          return results.json()
+      })
+      .then(data => {
+        this.setState({ unpaidloans:data.data })
       });
   }
 
@@ -69,17 +125,34 @@ class Borrowing extends Component {
   onSubmit = (e) => {
     e.preventDefault();
     this.setState({ amount: '',  date: ''});
-    this.createLoan(this.state.currentUser.user_details.bnu_address, this.state.currentUser.user_details.hashed_nin, this.state.amount, this.state.date)
+    let expected_amount = parseInt(this.state.amount*(2.5/100))+parseInt(this.state.amount)
+    console.log(expected_amount)
+    this.createLoan(this.state.currentUser.user_details.bnu_address, this.state.currentUser.user_details.hashed_nin, this.state.amount, this.state.date, expected_amount)
+
+    //create notification
+    this.setState({ _notificationSystem: this.refs.notificationSystem });
+    const _notificationSystem = this.refs.notificationSystem;
+    _notificationSystem.addNotification({
+      title: <span data-notify="icon" className="pe-7s-gift" />,
+      message: (
+        <div>
+          Loan of amount <b>{this.state.amount}</b> has been submitted successfully
+        </div>
+      ),
+      level: "success",
+      position: "tr",
+      autoDismiss: 10
+    });
   } 
 
-  createLoan = (borrowers_address, borrower_nin_hash, loan_amount, repayment_date) => {
+  createLoan = (borrowers_address, borrower_nin_hash, loan_amount, repayment_date, expected_amount) => {
     const requestOptions = {
       method: 'POST',
       headers: { 
         'Content-Type': 'application/json',
         'Authorization': 'Bearer '.concat(this.state.currentUser.token.token) 
       },
-      body: JSON.stringify({ borrowers_address, borrower_nin_hash,loan_amount, repayment_date })
+      body: JSON.stringify({ borrowers_address, borrower_nin_hash,loan_amount, repayment_date, expected_amount })
     };
 
     fetch(`${remoteApiUrl}/loans/`, requestOptions)
@@ -95,9 +168,10 @@ class Borrowing extends Component {
   onChange = (e) => this.setState({ [e.target.name]: e.target.value });
 
   render() {
-    const { currentUser, amount, date, submitted_loans } = this.state;
+    const { currentUser, amount, date, submitted_loans, borrower_history, unpaidloans } = this.state;
     return (
       <div className="content">
+      <NotificationSystem ref="notificationSystem" style={style}/>
         <Grid fluid>
           <Row>
             <Col lg={3} sm={6}>
@@ -146,7 +220,13 @@ class Borrowing extends Component {
                 content={
                   <div className="table-full-width">
                     <table className="table">
-                      <Tasks2 />
+                    <thead>
+                        <th>Lender's Address</th>
+                        <th>Amount to Pay</th>
+                        <th>Date to Pay</th>
+                        <th>Actions</th>
+                      </thead>
+                      <Tasks2 unpaidloans={unpaidloans}/>
                     </table>
                   </div>
                 }
@@ -238,9 +318,9 @@ class Borrowing extends Component {
                       {submitted_loans.map((prop, key) => {
                         return (
                           <tr key={key}>
-                            <td>{"1"}</td>
-                            <td>{prop.expected_payment_date}</td>
+                            <td>{prop.date_requested}</td>
                             <td>{prop.loan_amount}</td>
+                            <td>{prop.expected_amount}</td>
                             <td>{prop.loan_status}</td>
                           </tr>
                         );
@@ -269,15 +349,17 @@ class Borrowing extends Component {
                     </tr>
                   </thead>
                   <tbody>
-                    {tdBorrowersArray.map((prop, key) => {
-                      return (
-                        <tr key={key}>
-                          {prop.map((prop, key) => {
-                            return <td key={key}>{prop}</td>;
-                          })}
-                        </tr>
-                      );
-                    })}
+                  {borrower_history.map((prop, key) => {
+                        return (
+                          <tr key={key}>
+                            <td>{prop.lending_address.slice(0, 40)}</td>
+                            <td>{prop.actual_payment_date}</td>
+                            <td>{prop.loan_amount}</td>
+                            <td>{prop.expected_amount}</td>
+                            <td>{prop.loan_status}</td>
+                          </tr>
+                        );
+                      })}
                   </tbody>
                 </Table>
               }
