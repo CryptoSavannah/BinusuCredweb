@@ -5,9 +5,7 @@ import axios from 'axios';
 import { handleResponse } from 'helpers/handle-response';
 
 //remove this after
-const apiUrl = process.env.REACT_APP_MOCK_URL;
-console.log(apiUrl)
-const remoteApiUrl = process.env.REACT_APP_API_URL
+const remoteApiUrl = "https://test.credit.binusu.kapsonlabs.ml/api/v1"
 console.log(remoteApiUrl)
 
 const currentUserSubject = new BehaviorSubject(JSON.parse(localStorage.getItem('data')));

@@ -14,7 +14,7 @@ import {
   tdLendersArray
 } from "variables/Variables.jsx";
 
-const remoteApiUrl = process.env.REACT_APP_API_URL
+const remoteApiUrl = "https://test.credit.binusu.kapsonlabs.ml/api/v1"
 
 class Lending extends Component {
 
