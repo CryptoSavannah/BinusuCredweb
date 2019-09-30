@@ -6,6 +6,7 @@ import { Grid, Row, Col, Table,
 import Button from "components/CustomButton/CustomButton.jsx";
 import { FormInputs } from "components/FormInputs/FormInputs.jsx";
 import axios from 'axios';
+import { authenticationService } from "services/authenticationService";
 
 import { Card } from "components/Card/Card.jsx";
 import { StatsCard } from "components/StatsCard/StatsCard.jsx";
@@ -28,6 +29,12 @@ const remoteApiUrl = process.env.REACT_APP_API_URL
 
 class Borrowing extends Component {
 
+  state = {
+    currentUser: authenticationService.currentUserValue,
+    amount: '',
+    date: '',
+  }
+
   createLegend(json) {
     var legend = [];
     for (var i = 0; i < json["names"].length; i++) {
@@ -38,7 +45,37 @@ class Borrowing extends Component {
     }
     return legend;
   }
+
+  onSubmit = (e) => {
+    e.preventDefault();
+    this.setState({ amount: '',  date: ''});
+    this.createLoan(this.state.currentUser.user_details.bnu_address, this.state.currentUser.user_details.hashed_nin, this.state.amount, this.state.date)
+  } 
+
+  createLoan = (borrowers_address, borrower_nin_hash, loan_amount, repayment_date) => {
+    const requestOptions = {
+      method: 'POST',
+      headers: { 
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer '.concat(this.state.currentUser.token.token) 
+      },
+      body: JSON.stringify({ borrowers_address, borrower_nin_hash,loan_amount, repayment_date })
+    };
+
+    fetch(`${remoteApiUrl}/loans/`, requestOptions)
+      .then(results => {
+          return results.json()
+      })
+      .then(data => {
+          const loan = data.data;
+          console.log(loan)
+      });
+  }
+
+  onChange = (e) => this.setState({ [e.target.name]: e.target.value });
+
   render() {
+    const { currentUser, amount, date } = this.state;
     return (
       <div className="content">
         <Grid fluid>
@@ -101,7 +138,7 @@ class Borrowing extends Component {
               <Card
                 title="Submit Loan Request"
                 content={
-                  <form>
+                  <form onSubmit={this.onSubmit}>
                     <FormInputs
                       ncols={["col-md-12"]}
                       properties={[
@@ -110,8 +147,8 @@ class Borrowing extends Component {
                           type: "text",
                           bsClass: "form-control",
                           placeholder: "Borrowing Address",
-                          defaultValue: "ipkau2345765432345645",
-                          disabled: true
+                          defaultValue: currentUser.user_details.bnu_address,
+                          disabled: true,
                         },
                       ]}
                     />
@@ -119,17 +156,23 @@ class Borrowing extends Component {
                       ncols={["col-md-6", "col-md-6"]}
                       properties={[
                         {
-                          label: "Amount",
+                          label: "amount",
                           type: "text",
+                          name:"amount",
                           bsClass: "form-control",
                           placeholder: "Amount",
-                          defaultValue: "10,000"
+                          defaultValue: "10,000",
+                          value: amount,
+                          onChange: this.onChange,
                         },
                         {
                           label: "Repayment Date",
                           type: "date",
+                          name:"date",
                           bsClass: "form-control",
                           placeholder: "Repayment Date",
+                          value: date,
+                          onChange: this.onChange,
                         }
                       ]}
                     />
