@@ -28,6 +28,10 @@ class Lending extends Component {
     .then(res => this.setState({ loans:res.data.data }))
   }
 
+  delLoan = (id) => {
+    this.setState({ loans: [...this.state.loans.filter(loan => loan.id !== id)] });
+  }
+
   createLegend(json) {
     var legend = [];
     for (var i = 0; i < json["names"].length; i++) {
@@ -99,7 +103,7 @@ class Lending extends Component {
                         <th>Duration</th>
                         <th>Credit Score</th>
                       </thead>
-                      <Tasks loans={loans}/>
+                      <Tasks loans={loans} delLoan={this.delLoan}/>
                     </table>
                   </div>
                 }

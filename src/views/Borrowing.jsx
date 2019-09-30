@@ -30,9 +30,29 @@ const remoteApiUrl = process.env.REACT_APP_API_URL
 class Borrowing extends Component {
 
   state = {
+    submitted_loans: [],
     currentUser: authenticationService.currentUserValue,
     amount: '',
     date: '',
+  }
+
+  componentDidMount() {
+    const requestOptions = {
+      method: 'POST',
+      headers: { 
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer '.concat(this.state.currentUser.token.token) 
+      },
+      body: JSON.stringify({ borrowers_address: this.state.currentUser.user_details.bnu_address})
+    };
+
+    fetch(`${remoteApiUrl}/loans/requests/`, requestOptions)
+      .then(results => {
+          return results.json()
+      })
+      .then(data => {
+        this.setState({ submitted_loans:data.data })
+      });
   }
 
   createLegend(json) {
@@ -75,7 +95,7 @@ class Borrowing extends Component {
   onChange = (e) => this.setState({ [e.target.name]: e.target.value });
 
   render() {
-    const { currentUser, amount, date } = this.state;
+    const { currentUser, amount, date, submitted_loans } = this.state;
     return (
       <div className="content">
         <Grid fluid>
@@ -215,12 +235,13 @@ class Borrowing extends Component {
                       </tr>
                     </thead>
                     <tbody>
-                      {tdArray.map((prop, key) => {
+                      {submitted_loans.map((prop, key) => {
                         return (
                           <tr key={key}>
-                            {prop.map((prop, key) => {
-                              return <td key={key}>{prop}</td>;
-                            })}
+                            <td>{"1"}</td>
+                            <td>{prop.expected_payment_date}</td>
+                            <td>{prop.loan_amount}</td>
+                            <td>{prop.loan_status}</td>
                           </tr>
                         );
                       })}
