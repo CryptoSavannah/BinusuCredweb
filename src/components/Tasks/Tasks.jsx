@@ -13,7 +13,6 @@ export class Tasks extends Component {
     const edit = <Tooltip id="edit_tooltip">View Details</Tooltip>;
     const remove = <Tooltip id="remove_tooltip">Remove</Tooltip>;
 
-    var number;
     return this.props.loans.map((loan) => (
       <tbody>
         <tr key={loan.id}>
@@ -26,7 +25,7 @@ export class Tasks extends Component {
           <td className="td-actions text-right">
 
             <OverlayTrigger placement="top" overlay={remove}>
-              <Button bsStyle="danger" simple type="button" bsSize="xs">
+              <Button onClick={this.props.delLoan.bind(this, loan.id)} bsStyle="danger" simple type="button" bsSize="xs">
                 <i className="fa fa-times" />
               </Button>
             </OverlayTrigger>

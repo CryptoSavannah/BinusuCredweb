@@ -4,47 +4,31 @@ import Checkbox from "components/CustomCheckbox/CustomCheckbox.jsx";
 import Button from "components/CustomButton/CustomButton.jsx";
 import { Link } from "react-router-dom";
 
-export function Tasks2() {
+export class Tasks2 extends Component {
+  render() {  
 
-  const [modalShow, setModalShow] = React.useState(false);
-
-    let tasks = [];
-
-    
     const edit = <Tooltip id="edit_tooltip">View Details</Tooltip>;
     const remove = <Tooltip id="pay_loan">Pay Loan</Tooltip>;
-    
-    const tasks_title = [
-      ['ipKAU456789876543456787iuygbhjuygfvg789767887676765', "20,500", "10 days"],
-      ["ipKAU456789876543456787iuygbhjuygfvg789767887676765", "25,500", "15 days"],
-    ];
 
-    var number;
-    for (var i = 0; i < tasks_title.length; i++) {
-      number = "checkbox" + i;
-      tasks.push(
-        <tr key={i}>
-          <td>
-            <Checkbox
-              number={number}
-              isChecked={i === 1 || i === 2 ? true : false}
-            />
-          </td>
-          <td><Link to="/admin/pay_credit">{tasks_title[i][0]}</Link></td>
-          <td>{tasks_title[i][1]}</td>
-          <td>{tasks_title[i][2]}</td>
-          <td className="td-actions text-right">
+  
+    return this.props.unpaidloans.map((unpaidloan) => (
+      <tbody>
+        <tr key={unpaidloan.id}>
 
-            <OverlayTrigger placement="top" overlay={remove}>
-              <Button bsStyle="danger" simple type="button" bsSize="xs">
-                <i className="pe-7s-play" />
-              </Button>
-            </OverlayTrigger>
+        <td><Link to="/admin/confirm_details">{unpaidloan.lending_address.slice(0, 40)}</Link></td>
+        <td>{unpaidloan.expected_amount}</td>
+        <td>{unpaidloan.date_requested}</td>
+        <td className="td-actions text-right">
+
+          <OverlayTrigger placement="top" overlay={remove}>
+            <Button bsStyle="danger" simple type="button" bsSize="xs">
+              <i className="pe-7s-play" />
+            </Button>
+          </OverlayTrigger>
 
           </td>
         </tr>
-      );
+      </tbody>
+      ));
     }
-
-    return <tbody>{tasks}</tbody>;
-}
+  }
