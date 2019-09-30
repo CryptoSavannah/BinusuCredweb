@@ -1,10 +1,12 @@
 import React, { Component } from "react";
 import { Grid, Row, Col } from "react-bootstrap";
 import { Table } from "react-bootstrap";
+import axios from 'axios';
 
 import { Card } from "components/Card/Card.jsx";
 import { StatsCard } from "components/StatsCard/StatsCard.jsx";
 import { Tasks } from "components/Tasks/Tasks.jsx";
+import { authenticationService } from "services/authenticationService";
 
 
 import {
@@ -12,7 +14,20 @@ import {
   tdLendersArray
 } from "variables/Variables.jsx";
 
+const remoteApiUrl = process.env.REACT_APP_API_URL
+
 class Lending extends Component {
+
+  state = {
+    loans : [],
+    currentUser: authenticationService.currentUserValue,
+  }
+
+  componentDidMount() {
+    axios.get(`${remoteApiUrl}/loans/`, { headers: { Authorization: 'Bearer '.concat(this.state.currentUser.token.token) }})
+    .then(res => this.setState({ loans:res.data.data }))
+  }
+
   createLegend(json) {
     var legend = [];
     for (var i = 0; i < json["names"].length; i++) {
@@ -24,6 +39,7 @@ class Lending extends Component {
     return legend;
   }
   render() {
+    const { currentUser, loans } = this.state;
     return (
       <div className="content">
         <Grid fluid>
@@ -77,14 +93,13 @@ class Lending extends Component {
                   <div className="table-full-width">
                     <table className="table">
                       <thead>
-                        <th>*</th>
                         <th>Borrower Address</th>
                         <th>Amount</th>
                         <th>Interest</th>
                         <th>Duration</th>
                         <th>Credit Score</th>
                       </thead>
-                      <Tasks />
+                      <Tasks loans={loans}/>
                     </table>
                   </div>
                 }
