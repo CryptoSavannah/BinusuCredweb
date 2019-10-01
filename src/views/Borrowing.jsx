@@ -48,11 +48,11 @@ class Borrowing extends Component {
     this.fetchUnpaidLoans();
   }
 
-  // componentDidUpdate(prevProps, prevState) {
-  //   if (prevState.submitted_loans !== this.state.submitted_loans) {
-  //     this.fetchLoanRequests();
-  //   }
-  // }
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.submitted_loans !== this.state.submitted_loans) {
+      this.fetchLoanRequests();
+    }
+  }
 
   fetchLoanRequests = () => {
     const requestOptions = {
