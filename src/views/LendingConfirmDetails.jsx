@@ -1,13 +1,32 @@
-import React from "react";
+import React, { Component } from "react";
 import { Grid, Row, Col } from "react-bootstrap";
 import Button from "components/CustomButton/CustomButton.jsx";
 import { FormInputs } from "components/FormInputs/FormInputs.jsx";
+import { Loader } from "components/Loaders/Loader.jsx";
+import { authenticationService } from "services/authenticationService";
+import axios from 'axios';
 
 import { Card } from "components/Card/Card.jsx";
 import { StatsCard } from "components/StatsCard/StatsCard.jsx";
+const remoteApiUrl = "https://test.credit.binusu.kapsonlabs.ml/api/v1"
 
-export default function LendingConfirmDetails() {
+export default class LendingConfirmDetails extends Component{
+  state = {
+    loading: true,
+    particularLoan: [],
+    currentUser: authenticationService.currentUserValue,
+  }
+
+  componentDidMount() {
+    const { loanId } = this.props.location.state
+    
+    axios.get(`${remoteApiUrl}/loans/${loanId}/`, { headers: { Authorization: 'Bearer '.concat(this.state.currentUser.token.token) }})
+    .then(res => this.setState({ particularLoan:res.data.data, loading: false}))
+  }
   
+  render() {
+    const { particularLoan, loading } = this.state;
+    if (loading) return <Loader />;
     return (
       <div className="content">
         <Grid fluid>
@@ -15,20 +34,18 @@ export default function LendingConfirmDetails() {
           <Col md={6}>
                 <Col lg={12} sm={12}>
                 <StatsCard
-                    bigIcon={<i className="pe-7s-refresh-2 text-info" />}
-                    statsText="Current Interest Rate"
-                    statsValue="2.0%"
-                    statsIcon={<i className="fa fa-info" />}
-                    statsIconText="See how it's calculated"
+                    bigIcon={<i className="pe-7s-cash text-success" />}
+                    statsText="Expected Amount"
+                    statsValue={particularLoan.expected_amount}
+                    statsIcon={<i className="fa fa-clock-o" />}
                 />
                 </Col>
                 <Col lg={12} sm={12}>
                 <StatsCard
                     bigIcon={<i className="pe-7s-cash text-danger" />}
                     statsText="Credit Amount"
-                    statsValue="10K"
+                    statsValue={particularLoan.loan_amount}
                     statsIcon={<i className="fa fa-clock-o" />}
-                    statsIconText="In the last hour"
                 />
                 </Col>
                 <Col lg={12} sm={12}>
@@ -54,7 +71,7 @@ export default function LendingConfirmDetails() {
                           type: "text",
                           bsClass: "form-control",
                           placeholder: "Borrowing Address",
-                          defaultValue: "ipkau2345765432345645",
+                          defaultValue: particularLoan.borrower_address,
                           disabled: true
                         },
                       ]}
@@ -66,27 +83,16 @@ export default function LendingConfirmDetails() {
                           label: "Amount",
                           type: "text",
                           bsClass: "form-control",
-                          placeholder: "Amount",
-                          defaultValue: "10,000"
+                          placeholder: "Loan Amount",
+                          defaultValue: particularLoan.loan_amount,
+                          disabled: true
                         },
                         {
                           label: "Repayment Date",
-                          type: "date",
-                          bsClass: "form-control",
-                          placeholder: "Repayment dATE",
-                        }
-                      ]}
-                    />
-                    <FormInputs
-                      ncols={["col-md-12"]}
-                      properties={[
-                        {
-                          label: "Interest Calculator",
                           type: "text",
                           bsClass: "form-control",
-                          placeholder: "Interest Calculator",
-                          defaultValue:
-                            "10,500",
+                          placeholder: "Repayment Date",
+                          defaultValue: particularLoan.loan_amount,
                           disabled: true
                         }
                       ]}
@@ -105,3 +111,4 @@ export default function LendingConfirmDetails() {
       </div>
     );
   }
+}
