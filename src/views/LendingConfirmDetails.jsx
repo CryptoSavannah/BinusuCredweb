@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Grid, Row, Col, Modal } from "react-bootstrap";
+import { Grid, Row, Col, Modal, OverlayTrigger, Popover } from "react-bootstrap";
 import Button from "components/CustomButton/CustomButton.jsx";
 import { FormInputs } from "components/FormInputs/FormInputs.jsx";
 import { Loader } from "components/Loaders/Loader.jsx";
@@ -7,6 +7,7 @@ import { authenticationService } from "services/authenticationService";
 import axios from 'axios';
 import NotificationSystem from "react-notification-system";
 import { style } from "variables/Variables.jsx";
+import { sha256 } from 'js-sha256';
 
 import { Card } from "components/Card/Card.jsx";
 import { StatsCard } from "components/StatsCard/StatsCard.jsx";
@@ -23,6 +24,9 @@ export default class LendingConfirmDetails extends Component{
       spend_keys: [],
       show: false,
       _notificationSystem: null,
+      oauthHash:'',
+      gotToken: false,
+      userBalance: ''
     }
 
     this.handleShow = this.handleShow.bind(this);
@@ -32,6 +36,7 @@ export default class LendingConfirmDetails extends Component{
   componentDidMount() {
     if(this.state.loanId!=null){
       const loanid = this.state.loanId.loanId
+      this.getAddressBalance();
 
       axios.get(`${remoteApiUrl}/loans/${loanid}/`, { headers: { Authorization: 'Bearer '.concat(this.state.currentUser.token.token) }})
       .then(res => this.setState({ particularLoan:res.data.data, loading: false}))
@@ -48,6 +53,24 @@ export default class LendingConfirmDetails extends Component{
   //   console.log(this.state.spendKeys)
   // }
 
+  getAddressBalance = () => {
+    const requestOptions = {
+      method: 'POST',
+      headers: { 
+        'Content-Type': 'application/json', 
+      },
+      body: JSON.stringify({ method:"getMobileBalance", address: this.state.currentUser.user_details.bnu_address})
+    };
+
+    fetch('https://tokyo.adin.ug/api/node/mobile_api.php', requestOptions)
+      .then(results => {
+        return results.json()
+      })
+      .then(data => {
+        this.setState({ userBalance:data.response.available })
+      });
+  }
+
   fetchSpendKeys = (address) => {
     const requestOptions = {
       method: 'POST',
@@ -60,11 +83,12 @@ export default class LendingConfirmDetails extends Component{
 
     fetch(`${remoteApiUrl}/loans/get_key/`, requestOptions)
       .then(results => {
-          return results.json()
+          return results.json();
       })
       .then(data => {
         this.setState({ spend_keys:data.data }, () => {
-          console.log(data.data)
+          // console.log(data.data.spendpr_key)
+          return data.data.spendpr_key;
         })
       });
   }
@@ -83,9 +107,17 @@ export default class LendingConfirmDetails extends Component{
         return results.json()
       })
       .then(data => {
-        console.log(data)
-        return data
-      });
+        console.log(data.response.token);
+        return data.response.token;
+      })
+      .then(token => {
+        let hash = sha256.create();
+        hash.update(this.state.spend_keys.spendp_key+token);
+        console.log(hash.hex());
+        this.setState({ oauthHash:hash.hex() });
+        this.setState({ gotToken: true });
+        return hash.hex();
+      })
   }
 
   makeBlockchainCall = (oauth, from, to, amount) => {
@@ -102,30 +134,37 @@ export default class LendingConfirmDetails extends Component{
         return results.json()
       })
       .then(data => {
-        console.log(data)
+        console.log(data) 
         return data
       });
   }
 
   handleClose = () => {
+    this.setState({ gotToken: false });
     this.setState({ show: false });
   }
 
   approveCredit = () => {
-    this.setState({ _notificationSystem: this.refs.notificationSystem });
 
-    const _notificationSystem = this.refs.notificationSystem;
-    _notificationSystem.addNotification({
-      title: <span data-notify="icon" className="pe-7s-gift" />,
-      message: (
-        <div>
-          Loan of amount <b>{this.state.amount}</b> has been disbursed successfully
-        </div>
-      ),
-      level: "success",
-      position: "tr",
-      autoDismiss: 10
-    });
+    this.makeBlockchainCall(this.state.oauthHash, this.state.currentUser.user_details.bnu_address, this.state.particularLoan.borrower_address, this.state.particularLoan.loan_amount, (data) => {
+
+      this.setState({ gotToken: false });
+
+      const _notificationSystem = this.refs.notificationSystem;
+      _notificationSystem.addNotification({
+        title: <span data-notify="icon" className="pe-7s-gift" />,
+        message: (
+          <div>
+            Loan of amount <b>{this.state.amount}</b> has been disbursed successfully
+          </div>
+        ),
+        level: "success",
+        position: "tr",
+        autoDismiss: 10
+        
+      });
+      this.setState({ _notificationSystem: this.refs.notificationSystem });
+    })
   }
 
   handleShow(e) {
@@ -136,8 +175,18 @@ export default class LendingConfirmDetails extends Component{
   }
   
   render() {
-    const { particularLoan, loading } = this.state;
+    const { particularLoan, loading, gotToken, userBalance } = this.state;
+    // if (parseFloat(particularLoan.loan_amount) > parseFloat(userBalance)) {
+    //   button = <Button bsStyle="info" fill type="submit" disabled>
+    //               Approve Credit
+    //             </Button>;
+    // } else {
+    //   button = <Button bsStyle="info" fill type="submit" active>
+    //               Approve Credit
+    //             </Button>;;
+    // }
     if (loading) return <Loader />;
+      
     return (
       <div className="content">
       <NotificationSystem ref="notificationSystem" style={style}/>
@@ -210,9 +259,16 @@ export default class LendingConfirmDetails extends Component{
                       ]}
                     />
 
-                    <Button bsStyle="info" pullLeft fill type="submit">
-                      Approve Credit
-                    </Button>
+                    {parseFloat(particularLoan.loan_amount) > parseFloat(userBalance) ? (
+                        <Button bsStyle="info" fill type="submit" disabled>
+                          Approve Credit
+                        </Button>
+                    ) : (
+                      <Button bsStyle="info" fill type="submit" active>
+                        Approve Credit
+                      </Button>
+                    )}
+
                     <div className="clearfix" />
                   </form>
                 }
@@ -231,7 +287,7 @@ export default class LendingConfirmDetails extends Component{
               </Modal.Body>
               <Modal.Footer>
                 <Button onClick={this.handleClose}>Decline</Button>
-                <Button bsStyle="primary" onClick={this.approveCredit}>Approve</Button>
+                <Button bsStyle="primary" onClick={this.approveCredit} disabled={gotToken==false}>Approve</Button>
               </Modal.Footer>
               </Modal>
             </Col>

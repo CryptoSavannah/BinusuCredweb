@@ -244,7 +244,7 @@ var style = {
 // // // For tables
 // //
 //
-const thArray = ["ID", "Date", "Amount", "Status"];
+const thArray = ["Date", "Amount", "Amount to Pay", "Status"];
 const tdArray = [
   ["1", "02-09-2019", "10,500", "Processing"],
   ["2", "01-09-2019", "12,500", "Declined"],

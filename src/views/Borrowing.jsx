@@ -40,6 +40,9 @@ class Borrowing extends Component {
     if (prevState.submitted_loans !== this.state.submitted_loans) {
       this.fetchLoanRequests();
     }
+    if (prevState.unpaidloans !== this.state.unpaidloans) {
+      this.fetchUnpaidLoans();
+    }
   }
 
   fetchLoanRequests = () => {
@@ -199,28 +202,30 @@ class Borrowing extends Component {
               />
             </Col>
           </Row>
-          <Row>
-            <Col md={12}>
-            <Card
-                title="Unpaid Loans"
-                stats="Updated 3 minutes ago"
-                statsIcon="fa fa-history"
-                content={
-                  <div className="table-full-width">
-                    <table className="table">
-                    <thead>
-                        <th>Lender's Address</th>
-                        <th>Amount to Pay</th>
-                        <th>Date to Pay</th>
-                        <th>Actions</th>
-                      </thead>
-                      <Tasks2 unpaidloans={unpaidloans}/>
-                    </table>
-                  </div>
-                }
-              />
-            </Col>
-          </Row>
+          {unpaidloans.length > 0 &&
+            <Row>
+              <Col md={12}>
+              <Card
+                  title="Unpaid Loans"
+                  stats="Updated 3 minutes ago"
+                  statsIcon="fa fa-history"
+                  content={
+                    <div className="table-full-width">
+                      <table className="table">
+                      <thead>
+                          <th>Lender's Address</th>
+                          <th>Amount to Pay</th>
+                          <th>Date to Pay</th>
+                          <th>Actions</th>
+                        </thead>
+                        <Tasks2 unpaidloans={unpaidloans}/>
+                      </table>
+                    </div>
+                  }
+                />
+              </Col>
+            </Row>
+          }
           <Row>
           <Col md={6}>
               <Card
@@ -309,7 +314,7 @@ class Borrowing extends Component {
                             <td>{prop.date_requested}</td>
                             <td>{prop.loan_amount}</td>
                             <td>{prop.expected_amount}</td>
-                            <td>{prop.loan_status}</td>
+                            <td style={{"color":"white", "background":"red"}}>{"Unapproved"}</td>
                           </tr>
                         );
                       })}
@@ -324,7 +329,7 @@ class Borrowing extends Component {
           <Col md={12}>
             <Card
               title="Borrowing History"
-              category="Summary of all the borroeing history"
+              category="Summary of all the borrowing history"
               ctTableFullWidth
               ctTableResponsive
               content={

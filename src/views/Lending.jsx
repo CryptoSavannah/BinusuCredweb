@@ -23,11 +23,13 @@ class Lending extends Component {
     loans : [],
     lender_history: [],
     currentUser: authenticationService.currentUserValue,
+    userBalance: ''
   }
 
   componentDidMount() {
     this.fetchBorrowerLoanRequests();
     this.fetchLendingHistory();
+    this.getAddressBalance();
   }
 
   // componentDidUpdate(prevProps, prevState) {
@@ -60,6 +62,24 @@ class Lending extends Component {
       });
   }
 
+  getAddressBalance = () => {
+    const requestOptions = {
+      method: 'POST',
+      headers: { 
+        'Content-Type': 'application/json', 
+      },
+      body: JSON.stringify({ method:"getMobileBalance", address: this.state.currentUser.user_details.bnu_address})
+    };
+
+    fetch('https://tokyo.adin.ug/api/node/mobile_api.php', requestOptions)
+      .then(results => {
+        return results.json()
+      })
+      .then(data => {
+        this.setState({ userBalance:data.response.available })
+      });
+  }
+
   delLoan = (id) => {
     this.setState({ loans: [...this.state.loans.filter(loan => loan.id !== id)] });
   }
@@ -75,7 +95,7 @@ class Lending extends Component {
     return legend;
   }
   render() {
-    const { currentUser, loans, lender_history } = this.state;
+    const { currentUser, loans, lender_history, userBalance } = this.state;
     return (
       <div className="content">
         <Grid fluid>
@@ -84,7 +104,7 @@ class Lending extends Component {
               <StatsCard
                 bigIcon={<i className="pe-7s-drawer text-success" />}
                 statsText="Lending Balance"
-                statsValue="500K"
+                statsValue={userBalance}
                 statsIcon={<i className="fa fa-refresh" />}
                 statsIconText="Updated now"
               />
