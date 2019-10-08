@@ -15,7 +15,7 @@ export class Tasks2 extends Component {
       <tbody>
         <tr key={unpaidloan.id}>
 
-        <td><Link to="/admin/confirm_details">{unpaidloan.lending_address.slice(0, 40)}</Link></td>
+        <td><Link to="#">{unpaidloan.lending_address.slice(0, 40)}</Link></td>
         <td>{unpaidloan.expected_amount}</td>
         <td>{unpaidloan.date_requested}</td>
         <td className="td-actions text-right">

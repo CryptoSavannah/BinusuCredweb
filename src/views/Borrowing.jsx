@@ -12,20 +12,8 @@ import { style } from "variables/Variables.jsx";
 
 import { Card } from "components/Card/Card.jsx";
 import { StatsCard } from "components/StatsCard/StatsCard.jsx";
-import { thArray, tdArray, thBorrowersArray, tdBorrowersArray } from "variables/Variables.jsx";
+import { thArray, thBorrowersArray} from "variables/Variables.jsx";
 import { Tasks2 } from "components/Tasks/Tasks2.jsx";
-import {
-  dataPie,
-  legendPie,
-  dataSales,
-  optionsSales,
-  responsiveSales,
-  legendSales,
-  dataBar,
-  optionsBar,
-  responsiveBar,
-  legendBar
-} from "variables/Variables.jsx";
 
 const remoteApiUrl = "https://test.credit.binusu.kapsonlabs.ml/api/v1"
 
