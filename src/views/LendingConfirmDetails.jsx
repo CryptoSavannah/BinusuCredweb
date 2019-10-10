@@ -87,7 +87,7 @@ export default class LendingConfirmDetails extends Component{
       })
       .then(data => {
         this.setState({ spend_keys:data.data }, () => {
-          // console.log(data.data.spendpr_key)
+          
           return data.data.spendpr_key;
         })
       });
@@ -134,7 +134,29 @@ export default class LendingConfirmDetails extends Component{
         return results.json()
       })
       .then(data => {
-        console.log(data) 
+        if(data.status=="success"){
+          console.log(data.response.receipt)
+          this.updateLoanStatus(this.state.loanId.loanId, 2, this.state.currentUser.user_details.bnu_address, 80)
+
+        }
+      });
+  }
+
+  updateLoanStatus = (loan_id, status, lending_address, pay_id) => {
+    const requestOptions = {
+      method: 'POST',
+      headers: { 
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer '.concat(this.state.currentUser.token.token) 
+      },
+      body: JSON.stringify({ loan_id: loan_id, status: status, lending_address: lending_address, pay_id: pay_id})
+    };
+
+    fetch(`${remoteApiUrl}/loans/update/`, requestOptions)
+      .then(results => {
+          return results.json();
+      })
+      .then(data => {
         return data
       });
   }
@@ -146,25 +168,28 @@ export default class LendingConfirmDetails extends Component{
 
   approveCredit = () => {
 
-    this.makeBlockchainCall(this.state.oauthHash, this.state.currentUser.user_details.bnu_address, this.state.particularLoan.borrower_address, this.state.particularLoan.loan_amount, (data) => {
+    this.makeBlockchainCall(this.state.oauthHash, this.state.currentUser.user_details.bnu_address, this.state.particularLoan.borrower_address, this.state.particularLoan.loan_amount)
+      
+    this.setState({ gotToken: false });
 
-      this.setState({ gotToken: false });
+    const _notificationSystem = this.refs.notificationSystem;
+    _notificationSystem.addNotification({
+      title: <span data-notify="icon" className="pe-7s-gift" />,
+      message: (
+        <div>
+          Loan of amount <b>{this.state.amount}</b> has been disbursed successfully
+        </div>
+      ),
+      level: "success",
+      position: "tr",
+      autoDismiss: 10
+      
+    });
 
-      const _notificationSystem = this.refs.notificationSystem;
-      _notificationSystem.addNotification({
-        title: <span data-notify="icon" className="pe-7s-gift" />,
-        message: (
-          <div>
-            Loan of amount <b>{this.state.amount}</b> has been disbursed successfully
-          </div>
-        ),
-        level: "success",
-        position: "tr",
-        autoDismiss: 10
-        
-      });
-      this.setState({ _notificationSystem: this.refs.notificationSystem });
-    })
+    this.setState({ _notificationSystem: this.refs.notificationSystem });
+
+    this.props.history.push('/admin/lending')
+
   }
 
   handleShow(e) {

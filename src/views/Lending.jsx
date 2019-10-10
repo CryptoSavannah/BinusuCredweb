@@ -154,7 +154,7 @@ class Lending extends Component {
               <StatsCard
                 bigIcon={<i className="pe-7s-hourglass text-info" />}
                 statsText="Current Interest Rate"
-                statsValue="0.7%"
+                statsValue="2.5%"
                 statsIcon={<i className="pe-7s-info" />}
                 statsIconText="see how it's calculated"
               />
