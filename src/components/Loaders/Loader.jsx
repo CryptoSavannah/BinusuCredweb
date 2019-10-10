@@ -11,11 +11,11 @@ export function Loader() {
 const center = {
     margin: 'auto',
     width: '50%',
-    maxWidth: '400px',
-    minWidth: '200px',
+    maxWidth: '100px',
+    minWidth: '100px',
     position: 'relative',
     marginTop: '200px',
     marginBottom: '300px',
     marginLeft: '600px',
-    fontSize: '60px'
+    fontSize: '30px'
   }
