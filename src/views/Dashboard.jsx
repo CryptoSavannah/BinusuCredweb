@@ -18,9 +18,38 @@ import {
   responsiveBar,
   legendBar
 } from "variables/Variables.jsx";
+import { authenticationService } from "services/authenticationService";
 
 
 class Dashboard extends Component {
+
+  state = {
+    currentUser: authenticationService.currentUserValue,
+    userBalance: ''
+  }
+
+  componentDidMount() {
+    this.getAddressBalance();
+  }
+
+  getAddressBalance = () => {
+    const requestOptions = {
+      method: 'POST',
+      headers: { 
+        'Content-Type': 'application/json', 
+      },
+      body: JSON.stringify({ method:"getMobileBalance", address: this.state.currentUser.user_details.bnu_address})
+    };
+
+    fetch('https://tokyo.adin.ug/api/node/mobile_api.php', requestOptions)
+      .then(results => {
+        return results.json()
+      })
+      .then(data => {
+        this.setState({ userBalance:data.response.available })
+      });
+  }
+
   createLegend(json) {
     var legend = [];
     for (var i = 0; i < json["names"].length; i++) {
@@ -32,6 +61,7 @@ class Dashboard extends Component {
     return legend;
   }
   render() {
+    const {userBalance} = this.state
     return (
       <div className="content">
         <Grid fluid>
@@ -51,7 +81,7 @@ class Dashboard extends Component {
                 cardLink="/admin/lending"
                 bigIcon={<i className="pe-7s-cash text-danger" />}
                 statsText="I am a Lender"
-                statsValue="500K"
+                statsValue={userBalance}
                 statsIcon={<i className="fa fa-clock-o" />}
                 statsIconText="In the last hour"
               />

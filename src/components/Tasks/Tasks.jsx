@@ -17,11 +17,11 @@ export class Tasks extends Component {
       <tbody>
         <tr key={loan.id}>
 
-          <td><Link to="/admin/confirm_details">{loan.borrower_address.slice(0, 33)}</Link></td>
+          <td><Link to={{pathname: "/admin/confirm_details", state: {loanId: loan.id}}}>{loan.borrower_address.slice(0, 33)}</Link></td>
           <td>{loan.loan_amount}</td>
-          <td>{"undefined"}</td>
-          <td>{"undefined"}</td>
-          <td>{"undefined"}</td>
+          <td>{loan.expected_amount}</td>
+          <td>{loan.date_requested}</td>
+          <td>{200}</td>
           <td className="td-actions text-right">
 
             <OverlayTrigger placement="top" overlay={remove}>

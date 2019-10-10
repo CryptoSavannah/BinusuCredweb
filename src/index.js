@@ -14,9 +14,6 @@ import LoginPage from "layouts/Login.jsx";
 import RegisterPage from "layouts/Register.jsx";
 
 
-import { configureFakeBackend } from 'helpers/mockBackend';
-configureFakeBackend();
-
 
 ReactDOM.render(
   <BrowserRouter>
