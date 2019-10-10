@@ -176,15 +176,7 @@ export default class LendingConfirmDetails extends Component{
   
   render() {
     const { particularLoan, loading, gotToken, userBalance } = this.state;
-    // if (parseFloat(particularLoan.loan_amount) > parseFloat(userBalance)) {
-    //   button = <Button bsStyle="info" fill type="submit" disabled>
-    //               Approve Credit
-    //             </Button>;
-    // } else {
-    //   button = <Button bsStyle="info" fill type="submit" active>
-    //               Approve Credit
-    //             </Button>;;
-    // }
+    
     if (loading) return <Loader />;
       
     return (
@@ -259,12 +251,12 @@ export default class LendingConfirmDetails extends Component{
                       ]}
                     />
 
-                    {parseFloat(particularLoan.loan_amount) > parseFloat(userBalance) ? (
-                        <Button bsStyle="info" fill type="submit" disabled>
+                    {parseFloat(particularLoan.loan_amount) < parseFloat(userBalance) ? (
+                        <Button bsStyle="info" fill type="submit" active>
                           Approve Credit
                         </Button>
                     ) : (
-                      <Button bsStyle="info" fill type="submit" active>
+                      <Button bsStyle="info" fill type="submit" disabled>
                         Approve Credit
                       </Button>
                     )}

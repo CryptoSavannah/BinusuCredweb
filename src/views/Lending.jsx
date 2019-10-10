@@ -23,13 +23,16 @@ class Lending extends Component {
     loans : [],
     lender_history: [],
     currentUser: authenticationService.currentUserValue,
-    userBalance: ''
+    userBalance: '',
+    lentMoney: '',
+    interest: ''
   }
 
   componentDidMount() {
     this.fetchBorrowerLoanRequests();
     this.fetchLendingHistory();
     this.getAddressBalance();
+    this.fetchLoansStatistics();
   }
 
   // componentDidUpdate(prevProps, prevState) {
@@ -59,6 +62,26 @@ class Lending extends Component {
       })
       .then(data => {
         this.setState({ lender_history:data.data })
+      });
+  }
+
+  fetchLoansStatistics = () => {
+    const requestOptions = {
+      method: 'POST',
+      headers: { 
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer '.concat(this.state.currentUser.token.token) 
+      },
+      body: JSON.stringify({ address: this.state.currentUser.user_details.bnu_address})
+    };
+
+    fetch(`${remoteApiUrl}/loans/stats/`, requestOptions)
+      .then(results => {
+          return results.json()
+      })
+      .then(data => {
+        console.log(data.data)
+        this.setState({ lentMoney:data.data['loan_amount'], interest:data.data['interest'] })
       });
   }
 
@@ -95,7 +118,7 @@ class Lending extends Component {
     return legend;
   }
   render() {
-    const { currentUser, loans, lender_history, userBalance } = this.state;
+    const { currentUser, loans, lender_history, userBalance, lentMoney, interest } = this.state;
     return (
       <div className="content">
         <Grid fluid>
@@ -113,7 +136,7 @@ class Lending extends Component {
               <StatsCard
                 bigIcon={<i className="pe-7s-cash text-info" />}
                 statsText="Lent Money"
-                statsValue="50K"
+                statsValue={lentMoney}
                 statsIcon={<i className="fa fa-clock-o" />}
                 statsIconText="In the last hour"
               />
@@ -122,7 +145,7 @@ class Lending extends Component {
               <StatsCard
                 bigIcon={<i className="pe-7s-cash text-success" />}
                 statsText="Total Interest(Open Loans)"
-                statsValue="5K"
+                statsValue={interest}
                 statsIcon={<i className="pe-7s-info" />}
                 statsIconText="see how it's calculated"
               />
