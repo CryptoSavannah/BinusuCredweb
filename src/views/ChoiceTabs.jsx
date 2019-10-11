@@ -25,8 +25,8 @@ class ChoiceTabs extends Component {
       <div className="content">
         <Grid fluid>
           <Row>
-            <Col lg={3}></Col>
-            <Col lg={6} sm={6}>
+            <Col lg={2}></Col>
+            <Col lg={8} sm={6}>
               <h3>Welcome {currentUser.user_details.first_name} {currentUser.user_details.last_name}. Please Navigate Below</h3>
             </Col>
           </Row>
