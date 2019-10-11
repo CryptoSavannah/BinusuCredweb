@@ -99,7 +99,7 @@ class Lending extends Component {
         return results.json()
       })
       .then(data => {
-        this.setState({ userBalance:data.response.available })
+        this.setState({ userBalance:data.response.available+data.response.pending })
       });
   }
 

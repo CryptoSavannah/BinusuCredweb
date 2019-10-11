@@ -28,6 +28,17 @@ export default class BorrowingConfirmDetails extends Component{
     loading: true,
     repayment_history: [],
     currentUser: authenticationService.currentUserValue,
+    loanId: this.props.location.state,
+    particularLoan: [],
+  }
+
+  componentDidMount() {
+    if(this.state.loanId!=null){
+      const loanid = this.state.loanId.unpaidloanId
+
+      axios.get(`${remoteApiUrl}/loans/${loanid}/`, { headers: { Authorization: 'Bearer '.concat(this.state.currentUser.token.token) }})
+      .then(res => this.setState({ particularLoan:res.data.data, loading: false}))
+    }
   }
 
   createLegend(json) {
@@ -49,8 +60,8 @@ export default class BorrowingConfirmDetails extends Component{
 //   }
   
   render() {
-    // const { particularLoan, loading } = this.state;
-    // if (loading) return <Loader />;
+    const { particularLoan } = this.state;
+
     const { repayment_history } = this.state;
     return (
       <div className="content">
@@ -62,7 +73,7 @@ export default class BorrowingConfirmDetails extends Component{
                 content={
                   <form>
                     <FormInputs
-                      ncols={["col-md-6", "col-md-6"]}
+                      ncols={["col-md-12"]}
                       properties={[
                         {
                           label: "Amount",
@@ -70,12 +81,18 @@ export default class BorrowingConfirmDetails extends Component{
                           bsClass: "form-control",
                           placeholder: "Installment Amount",
                         },
+                      ]}
+                    />
+
+                    <FormInputs
+                      ncols={["col-md-12"]}
+                      properties={[
                         {
                           label: "Lending Address",
                           type: "text",
                           bsClass: "form-control",
-                          placeholder: "Repayment Date",
-                          defaultValue: "particularLoan.lending_address",
+                          placeholder: "Lending Address",
+                          defaultValue: particularLoan.lending_address,
                           disabled: true
                         }
                       ]}
@@ -92,14 +109,14 @@ export default class BorrowingConfirmDetails extends Component{
                 <StatsCard
                     bigIcon={<i className="pe-7s-cash text-success" />}
                     statsText="Loan Amount"
-                    statsValue="10,000"
+                    statsValue={particularLoan.loan_amount}
                     statsIcon={<i className="fa fa-clock-o" />}
                 />
               </Col>
               <Col lg={6} sm={6}>
                 <StatsCard
                     bigIcon={<i className="pe-7s-cash text-success" />}
-                    statsText="Amount Repaid"
+                    statsText="Outstanding"
                     statsValue="5,000"
                     statsIcon={<i className="fa fa-clock-o" />}
                 />
