@@ -15,9 +15,9 @@ export class Tasks2 extends Component {
       <tbody>
         <tr key={unpaidloan.id}>
 
-        <td><Link to="#">{unpaidloan.lending_address.slice(0, 40)}</Link></td>
+        <td><Link to={{pathname: "/admin/pay_loan", state: {unpaidloanId: unpaidloan.id}}}>{unpaidloan.lending_address.slice(0, 40)}</Link></td>
         <td>{unpaidloan.expected_amount}</td>
-        <td>{unpaidloan.date_requested}</td>
+        <td>{unpaidloan.expected_payment_date}</td>
         <td className="td-actions text-right">
 
           <OverlayTrigger placement="top" overlay={remove}>

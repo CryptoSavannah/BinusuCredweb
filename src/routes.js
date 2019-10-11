@@ -8,6 +8,13 @@ import ChoiceTabs from "views/ChoiceTabs.jsx";
 
 const dashboardRoutes = [
   {
+    path: "/choose_track",
+    name: "Home",
+    icon: "pe-7s-graph",
+    component: ChoiceTabs,
+    layout: "/admin"
+  },
+  {
     path: "/dashboard",
     name: "Dashboard",
     icon: "pe-7s-graph",
@@ -15,19 +22,13 @@ const dashboardRoutes = [
     layout: "/admin"
   },
   {
-    path: "/choose_track",
-    name: "Choice Tabs",
-    icon: "pe-7s-graph",
-    component: ChoiceTabs,
+    path: "/profile",
+    name: "Account",
+    icon: "pe-7s-user",
+    component: UserProfile,
     layout: "/admin"
   },
-  // {
-  //   path: "/lenders",
-  //   name: "Lenders",
-  //   icon: "pe-7s-user",
-  //   component: TableList,
-  //   layout: "/admin"
-  // },
+  
   // {
   //   path: "/rankings",
   //   name: "Rankings",
