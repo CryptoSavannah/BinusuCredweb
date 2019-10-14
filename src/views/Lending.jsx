@@ -164,6 +164,49 @@ class Lending extends Component {
           <Row>
             <Col md={12}>
               <Card
+                title="Lending History"
+                category="Summary of all the lending history"
+                ctTableFullWidth
+                ctTableResponsive
+                content={
+                  <Table striped hover>
+                    <thead>
+                      <tr>
+                        {thLendersArray.map((prop, key) => {
+                          return <th key={key}>{prop}</th>;
+                        })}
+                      </tr>
+                    </thead>
+                    <tbody>
+                    {lender_history.map((prop, key) => {
+                        
+                        return (
+                          <tr key={key}>
+            
+                            <td>{prop.lending_address.slice(0, 40)}</td>
+                            <td>{prop.actual_payment_date}</td>
+                            <td>{prop.loan_amount}</td>
+                            <td>{prop.expected_amount}</td>
+                            {prop.loan_status==2 ? (
+                              <td style={{"color":"white", "background":"red"}}>{"Unpaid"}</td>
+                            ) : (
+                              <td style={{"color":"white", "background":"blue"}}>{"Under Payment"}</td>
+                            )}
+                            
+                          </tr>
+            
+                        );
+                      })}
+                    </tbody>
+                  </Table>
+                }
+              />
+              </Col>
+          </Row>
+
+          <Row>
+            <Col md={12}>
+              <Card
                 title="Available Borrowers"
                 category="Filtered According to Lending balance and Credit score"
                 stats="Updated 3 minutes ago"
@@ -186,40 +229,6 @@ class Lending extends Component {
             </Col>
           </Row>
 
-          <Row>
-            <Col md={12}>
-              <Card
-                title="Lending History"
-                category="Summary of all the lending history"
-                ctTableFullWidth
-                ctTableResponsive
-                content={
-                  <Table striped hover>
-                    <thead>
-                      <tr>
-                        {thLendersArray.map((prop, key) => {
-                          return <th key={key}>{prop}</th>;
-                        })}
-                      </tr>
-                    </thead>
-                    <tbody>
-                    {lender_history.map((prop, key) => {
-                        return (
-                          <tr key={key}>
-                            <td>{prop.lending_address.slice(0, 40)}</td>
-                            <td>{prop.actual_payment_date}</td>
-                            <td>{prop.loan_amount}</td>
-                            <td>{prop.expected_amount}</td>
-                            <td>{prop.loan_status}</td>
-                          </tr>
-                        );
-                      })}
-                    </tbody>
-                  </Table>
-                }
-              />
-              </Col>
-          </Row>
         </Grid>
       </div>
     );
