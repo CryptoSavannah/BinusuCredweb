@@ -28,7 +28,8 @@ class Lending extends Component {
     userBalance: '',
     lentMoney: '',
     interest: '',
-    historyLoading: true
+    historyLoading: true,
+    borrowersLoading: true,
   }
 
   componentDidMount() {
@@ -46,7 +47,7 @@ class Lending extends Component {
 
   fetchBorrowerLoanRequests = () => {
     axios.get(`${remoteApiUrl}/loans/`, { headers: { Authorization: 'Bearer '.concat(this.state.currentUser.token.token) }})
-    .then(res => this.setState({ loans:res.data.data }))
+    .then(res => this.setState({ loans:res.data.data, borrowersLoading:false }))
   }
 
   fetchLendingHistory = () => {
@@ -122,7 +123,7 @@ class Lending extends Component {
     return legend;
   }
   render() {
-    const { currentUser, loans, lender_history, userBalance, lentMoney, interest, historyLoading } = this.state;
+    const { currentUser, loans, lender_history, userBalance, lentMoney, interest, historyLoading, borrowersLoading } = this.state;
     return (
       <div className="content">
         <Grid fluid>
@@ -230,7 +231,11 @@ class Lending extends Component {
                         <th>Duration</th>
                         <th>Credit Score</th>
                       </thead>
-                      <Tasks loans={loans} delLoan={this.delLoan}/>
+                      {borrowersLoading==true ? (
+                      <Loader3/>
+                      ) : (
+                        <Tasks loans={loans} delLoan={this.delLoan}/>
+                      )}
                     </table>
                   </div>
                 }
