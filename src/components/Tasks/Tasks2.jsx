@@ -17,16 +17,14 @@ export class Tasks2 extends Component {
 
         <td><Link to={{pathname: "/admin/pay_loan", state: {unpaidloanId: unpaidloan.id}}}>{unpaidloan.lending_address.slice(0, 40)}</Link></td>
         <td>{unpaidloan.expected_amount}</td>
+        <td style={{"color":"red"}}>{unpaidloan.outstanding_amount}</td>
         <td>{unpaidloan.expected_payment_date}</td>
-        <td className="td-actions text-right">
-
-          <OverlayTrigger placement="top" overlay={remove}>
-            <Button bsStyle="danger" simple type="button" bsSize="xs">
-              <i className="pe-7s-play" />
-            </Button>
-          </OverlayTrigger>
-
-          </td>
+        {unpaidloan.loan_status==2 ? (
+          <td style={{"color":"white", "background":"red"}}>{"Unpaid"}</td>
+        ) : (
+          <td style={{"color":"white", "background":"blue"}}>{"Under Payment"}</td>
+        )}
+  
         </tr>
       </tbody>
       ));

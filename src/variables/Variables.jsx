@@ -262,7 +262,7 @@ const tdBorrowersArray = [
   ["ipKAU123456789", "01-09-2019", "30,300", "30,300","Paid"],
 ];
 
-const thLendersArray = ["Lent To", "Date", "Amount Lent", "Amount Paid Back", "Interest Collected"];
+const thLendersArray = ["Lent To", "Date Approved", "Amount Lent", "Outstanding", "Status"];
 const tdLendersArray = [
   ["ipKAU123456789", "02-09-2019", "10,000", "10,500","500"],
   ["ipKAU123456789", "01-09-2019", "12,000", "12,500","500"],

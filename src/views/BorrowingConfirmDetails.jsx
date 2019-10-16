@@ -319,9 +319,9 @@ export default class BorrowingConfirmDetails extends Component{
               </Col>
               <Col lg={6} sm={6}>
                 <StatsCard
-                    bigIcon={<i className="pe-7s-cash text-success" />}
+                    bigIcon={<i className="pe-7s-cash text-danger" />}
                     statsText="Outstanding"
-                    statsValue={particularLoan.expected_amount}
+                    statsValue={particularLoan.outstanding_amount}
                     statsIcon={<i className="fa fa-clock-o" />}
                 />
               </Col>
@@ -357,13 +357,12 @@ export default class BorrowingConfirmDetails extends Component{
               ctTableResponsive
               content={
                 <Table striped hover>
-                  {/* <thead>
-                    <tr>
-                      {thBorrowersArray.map((prop, key) => {
-                        return <th key={key}>{prop}</th>;
-                      })}
-                    </tr>
-                  </thead> */}
+                  <thead>
+                      <th>Paying Address</th>
+                      <th>Installment</th>
+                      <th>Amount</th>
+                      <th>Date Paid</th>
+                    </thead>
                   <tbody>
                   {repayment_history.map((prop, key) => {
                         return (

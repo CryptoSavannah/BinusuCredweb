@@ -3,6 +3,7 @@ import Borrowing from "views/Borrowing.jsx";
 import LendingConfirmDetails from "views/LendingConfirmDetails.jsx";
 import PayCredit from "views/PayCredit.jsx";
 import BorrowingConfirmDetails from "views/BorrowingConfirmDetails";
+import LoanTrackingDetails from "views/LoanTrackingDetails";
 
 const dashboardLinks = [
   {
@@ -38,6 +39,13 @@ const dashboardLinks = [
     name: "PayCredit",
     icon: "pe-7s-bell",
     component: PayCredit,
+    layout: "/admin"
+  },
+  {
+    path: "/track_loan",
+    name: "TrackLoan",
+    icon: "pe-7s-bell",
+    component: LoanTrackingDetails,
     layout: "/admin"
   },
 ];
