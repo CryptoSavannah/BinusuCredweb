@@ -6,6 +6,7 @@ import axios from 'axios';
 import { Card } from "components/Card/Card.jsx";
 import { StatsCard } from "components/StatsCard/StatsCard.jsx";
 import { Tasks } from "components/Tasks/Tasks.jsx";
+import { Loader3 } from "components/Loaders/Loader3.jsx";
 
 import { authenticationService } from "services/authenticationService";
 import { Link } from "react-router-dom";
@@ -26,7 +27,8 @@ class Lending extends Component {
     currentUser: authenticationService.currentUserValue,
     userBalance: '',
     lentMoney: '',
-    interest: ''
+    interest: '',
+    historyLoading: true
   }
 
   componentDidMount() {
@@ -62,7 +64,7 @@ class Lending extends Component {
           return results.json()
       })
       .then(data => {
-        this.setState({ lender_history:data.data })
+        this.setState({ lender_history:data.data, historyLoading:false })
       });
   }
 
@@ -120,7 +122,7 @@ class Lending extends Component {
     return legend;
   }
   render() {
-    const { currentUser, loans, lender_history, userBalance, lentMoney, interest } = this.state;
+    const { currentUser, loans, lender_history, userBalance, lentMoney, interest, historyLoading } = this.state;
     return (
       <div className="content">
         <Grid fluid>
@@ -179,26 +181,32 @@ class Lending extends Component {
                         })}
                       </tr>
                     </thead>
+                    {historyLoading==true ? (
+                      <Loader3/>
+                    ) : (
                     <tbody>
-                    {lender_history.map((prop, key) => {
-                        
-                        return (
-                          <tr key={key}>
-                            <td><Link to={{pathname: "/admin/track_loan", state: {loanId: prop.id}}}>{prop.lending_address.slice(0, 15)}</Link></td>
-                            <td>{prop.date_approved}</td>
-                            <td>{prop.loan_amount}</td>
-                            <td>{prop.outstanding_amount}</td>
-                            {prop.loan_status==2 ? (
-                              <td style={{"color":"white", "background":"red"}}>{"Unpaid"}</td>
-                            ) : (
-                              <td style={{"color":"white", "background":"blue"}}>{"Under Payment"}</td>
-                            )}
-                            
-                          </tr>
-            
-                        );
-                      })}
+                    
+                      {lender_history.map((prop, key) => {
+                          
+                          return (
+                            <tr key={key}>
+                              <td><Link to={{pathname: "/admin/track_loan", state: {loanId: prop.id}}}>{prop.lending_address.slice(0, 40)}</Link></td>
+                              <td>{prop.date_approved}</td>
+                              <td>{prop.loan_amount}</td>
+                              <td>{prop.outstanding_amount}</td>
+                              {prop.loan_status==2 ? (
+                                <td style={{"color":"white", "background":"red"}}>{"Unpaid"}</td>
+                              ) : (
+                                <td style={{"color":"white", "background":"blue"}}>{"Under Payment"}</td>
+                              )}
+                              
+                            </tr>
+              
+                          );
+                        })}
+                      
                     </tbody>
+                    )}
                   </Table>
                 }
               />
