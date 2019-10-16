@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Grid, Row, Col } from "react-bootstrap";
+import { Grid, Row, Col, Jumbotron } from "react-bootstrap";
 
 import { StatsCard } from "components/StatsCard/StatsCard.jsx";
 import { userService } from "services/userService";
@@ -25,10 +25,12 @@ class ChoiceTabs extends Component {
       <div className="content">
         <Grid fluid>
           <Row>
-            <Col lg={2}></Col>
-            <Col lg={8} sm={6}>
-              <h3>Welcome {currentUser.user_details.first_name} {currentUser.user_details.last_name}. Please Navigate Below</h3>
+            <Col lg={12} sm={12}>
+              <Jumbotron style={{"text-align":"center", "padding":"15px", "margin-top":"-25px"}}>
+                <h3>Welcome {currentUser.user_details.first_name} {currentUser.user_details.last_name}. Please Navigate Below</h3>
+              </Jumbotron>
             </Col>
+              
           </Row>
           <Row>
             <Col lg={4}></Col>

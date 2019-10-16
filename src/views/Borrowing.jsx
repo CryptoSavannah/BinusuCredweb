@@ -27,6 +27,7 @@ class Borrowing extends Component {
     amount: '',
     date: '',
     expected_amount: '',
+    borrowedMoney: '',
     _notificationSystem: null,
   }
 
@@ -34,6 +35,7 @@ class Borrowing extends Component {
     this.fetchLoanRequests();
     this.fetchBorrowingHistory();
     this.fetchUnpaidLoans();
+    this.fetchBorrowerStatistics();
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -43,6 +45,26 @@ class Borrowing extends Component {
     if (prevState.unpaidloans !== this.state.unpaidloans) {
       this.fetchUnpaidLoans();
     }
+  }
+
+  fetchBorrowerStatistics = () => {
+    const requestOptions = {
+      method: 'POST',
+      headers: { 
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer '.concat(this.state.currentUser.token.token) 
+      },
+      body: JSON.stringify({ address: this.state.currentUser.user_details.bnu_address})
+    };
+
+    fetch(`${remoteApiUrl}/loans/borrowerstats/`, requestOptions)
+      .then(results => {
+          return results.json()
+      })
+      .then(data => {
+        console.log(data.data)
+        this.setState({ borrowedMoney:data.data['loan_amount']})
+      });
   }
 
   fetchLoanRequests = () => {
@@ -159,7 +181,7 @@ class Borrowing extends Component {
   onChange = (e) => this.setState({ [e.target.name]: e.target.value });
 
   render() {
-    const { currentUser, amount, date, submitted_loans, borrower_history, unpaidloans } = this.state;
+    const { currentUser, amount, date, submitted_loans, borrower_history, unpaidloans, borrowedMoney } = this.state;
     return (
       <div className="content">
       <NotificationSystem ref="notificationSystem" style={style}/>
@@ -169,7 +191,7 @@ class Borrowing extends Component {
               <StatsCard
                 bigIcon={<i className="pe-7s-credit text-warning" />}
                 statsText="Funds Owed"
-                statsValue="50K"
+                statsValue={borrowedMoney}
                 statsIcon={<i className="fa fa-refresh" />}
                 statsIconText="Updated now"
               />
@@ -215,8 +237,9 @@ class Borrowing extends Component {
                       <thead>
                           <th>Lender's Address</th>
                           <th>Amount to Pay</th>
-                          <th>Date to Pay</th>
-                          <th>Actions</th>
+                          <th>Oustanding</th>
+                          <th>Payable By</th>
+                          <th>Status</th>
                         </thead>
                         <Tasks2 unpaidloans={unpaidloans}/>
                       </table>

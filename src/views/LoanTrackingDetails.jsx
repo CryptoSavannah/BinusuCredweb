@@ -1,11 +1,12 @@
 import React, { Component } from "react";
 import ChartistGraph from "react-chartist";
-import { Grid, Row, Col } from "react-bootstrap";
+import { Grid, Row, Col, Table } from "react-bootstrap";
 
 import { Card } from "components/Card/Card.jsx";
 
 import { StatsCard } from "components/StatsCard/StatsCard.jsx";
 import { Tasks } from "components/Tasks/Tasks.jsx";
+import axios from 'axios';
 import {
   dataPie,
   legendPie,
@@ -19,17 +20,26 @@ import {
   legendBar
 } from "variables/Variables.jsx";
 import { authenticationService } from "services/authenticationService";
+const remoteApiUrl = "https://test.credit.binusu.kapsonlabs.ml/api/v1"
 
 
-class Dashboard extends Component {
+class LoanTrackingDetails extends Component {
 
   state = {
     currentUser: authenticationService.currentUserValue,
-    userBalance: ''
+    userBalance: '',
+    repayment_history: []
   }
 
   componentDidMount() {
-    this.getAddressBalance();
+    if(this.state.loanId!=null){
+        const loanid = this.state.loanId.loanId
+        this.getAddressBalance();
+        this.fetchRepaymentsHistory(loanid);
+  
+        axios.get(`${remoteApiUrl}/loans/${loanid}/`, { headers: { Authorization: 'Bearer '.concat(this.state.currentUser.token.token) }})
+        .then(res => this.setState({ particularLoan:res.data.data, loading: false}))
+      }
   }
 
   getAddressBalance = () => {
@@ -46,7 +56,26 @@ class Dashboard extends Component {
         return results.json()
       })
       .then(data => {
-        this.setState({ userBalance:data.response.available.toFixed(2) })
+        this.setState({ userBalance:data.response.available })
+      });
+  }
+
+  fetchRepaymentsHistory = (loan_id) => {
+    const requestOptions = {
+      method: 'POST',
+      headers: { 
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer '.concat(this.state.currentUser.token.token) 
+      },
+      body: JSON.stringify({ loan_id: loan_id})
+    };
+
+    fetch(`${remoteApiUrl}/loans/repayments_history/`, requestOptions)
+      .then(results => {
+          return results.json();
+      })
+      .then(data => {
+        this.setState({ repayment_history:data.data })
       });
   }
 
@@ -61,7 +90,7 @@ class Dashboard extends Component {
     return legend;
   }
   render() {
-    const {userBalance} = this.state
+    const {userBalance, repayment_history} = this.state
     return (
       <div className="content">
         <Grid fluid>
@@ -69,8 +98,8 @@ class Dashboard extends Component {
             <Col lg={4} sm={12}>
               <StatsCard
                 cardLink="#"
-                bigIcon={<i className="pe-7s-server text-warning" />}
-                statsText="Available Funds to Borrow"
+                bigIcon={<i className="pe-7s-cash text-primary" />}
+                statsText="Loan Amount"
                 statsValue="450M"
                 statsIcon={<i className="fa fa-refresh" />}
                 statsIconText="Updated now"
@@ -78,9 +107,9 @@ class Dashboard extends Component {
             </Col>
             <Col lg={4} sm={12}>
               <StatsCard
-                cardLink="/admin/lending"
-                bigIcon={<i className="pe-7s-cash text-danger" />}
-                statsText="I am a Lender"
+                cardLink="#"
+                bigIcon={<i className="pe-7s-cash text-success" />}
+                statsText="Amount Paid Back"
                 statsValue={userBalance}
                 statsIcon={<i className="fa fa-clock-o" />}
                 statsIconText="In the last hour"
@@ -88,9 +117,9 @@ class Dashboard extends Component {
             </Col>
             <Col lg={4} sm={12}>
               <StatsCard
-                cardLink="/admin/borrowing"
-                bigIcon={<i className="pe-7s-portfolio text-info" />}
-                statsText="I am a Borrower"
+                cardLink="#"
+                bigIcon={<i className="pe-7s-cash text-danger" />}
+                statsText="Outstanding Amount"
                 statsValue="0"
                 statsIcon={<i className="fa fa-refresh" />}
                 statsIconText="Updated now"
@@ -98,11 +127,11 @@ class Dashboard extends Component {
             </Col>
           </Row>
           <Row>
-            <Col md={8}>
+            <Col md={6}>
               <Card
                 statsIcon="fa fa-history"
                 id="chartHours"
-                title="Interest Rate Predictions"
+                title="Repayment Tracker"
                 category="24 Hours performance"
                 stats="Updated 3 minutes ago"
                 content={
@@ -120,49 +149,35 @@ class Dashboard extends Component {
                 }
               />
             </Col>
-            <Col md={4}>
-              <Card
-                statsIcon="fa fa-clock-o"
-                title="Market Status"
-                category="24 Hours Performance"
-                stats="Campaign sent 2 days ago"
-                content={
-                  <div
-                    id="chartPreferences"
-                    className="ct-chart ct-perfect-fourth"
-                  >
-                    <ChartistGraph data={dataPie} type="Pie" />
-                  </div>
-                }
-                legend={
-                  <div className="legend">{this.createLegend(legendPie)}</div>
-                }
-              />
-            </Col>
-          </Row>
-
-          <Row>
-            <Col md={12}>
-              <Card
-                id="chartActivity"
-                title="Trend Analysis"
-                category="All loans including Taxes"
-                stats="Data information certified"
-                statsIcon="fa fa-check"
-                content={
-                  <div className="ct-chart">
-                    <ChartistGraph
-                      data={dataBar}
-                      type="Bar"
-                      options={optionsBar}
-                      responsiveOptions={responsiveBar}
-                    />
-                  </div>
-                }
-                legend={
-                  <div className="legend">{this.createLegend(legendBar)}</div>
-                }
-              />
+            <Col md={6}>
+            <Card
+              title="Repayment History"
+              category="Summary of all the this loan's history"
+              ctTableFullWidth
+              ctTableResponsive
+              content={
+                <Table striped hover>
+                  <thead>
+                      <th>Paying Address</th>
+                      <th>Installment</th>
+                      <th>Amount</th>
+                      <th>Date Paid</th>
+                    </thead>
+                  <tbody>
+                  {repayment_history.map((prop, key) => {
+                        return (
+                          <tr key={key}>
+                            <td>{prop.paying_address.slice(0, 40)}</td>
+                            <td>{prop.installment_number}</td>
+                            <td>{prop.installment_amount}</td>
+                            <td>{prop.date_paid}</td>
+                          </tr>
+                        );
+                      })}
+                  </tbody>
+                </Table>
+              }
+            />
             </Col>
           </Row>
         </Grid>
@@ -171,4 +186,4 @@ class Dashboard extends Component {
   }
 }
 
-export default Dashboard;
+export default LoanTrackingDetails;

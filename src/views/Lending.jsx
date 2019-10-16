@@ -8,6 +8,7 @@ import { StatsCard } from "components/StatsCard/StatsCard.jsx";
 import { Tasks } from "components/Tasks/Tasks.jsx";
 
 import { authenticationService } from "services/authenticationService";
+import { Link } from "react-router-dom";
 
 
 import {
@@ -99,7 +100,8 @@ class Lending extends Component {
         return results.json()
       })
       .then(data => {
-        this.setState({ userBalance:data.response.available+data.response.pending })
+        const balance = data.response.available+data.response.pending
+        this.setState({ userBalance:balance.toFixed(2) })
       });
   }
 
@@ -182,11 +184,10 @@ class Lending extends Component {
                         
                         return (
                           <tr key={key}>
-            
-                            <td>{prop.lending_address.slice(0, 40)}</td>
-                            <td>{prop.actual_payment_date}</td>
+                            <td><Link to={{pathname: "/admin/track_loan", state: {loanId: prop.id}}}>{prop.lending_address.slice(0, 15)}</Link></td>
+                            <td>{prop.date_approved}</td>
                             <td>{prop.loan_amount}</td>
-                            <td>{prop.expected_amount}</td>
+                            <td>{prop.outstanding_amount}</td>
                             {prop.loan_status==2 ? (
                               <td style={{"color":"white", "background":"red"}}>{"Unpaid"}</td>
                             ) : (
