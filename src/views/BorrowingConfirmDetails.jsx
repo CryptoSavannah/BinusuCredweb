@@ -397,7 +397,7 @@ export default class BorrowingConfirmDetails extends Component{
               </Modal.Body>
               <Modal.Footer>
                 <Button onClick={this.handleClose}>Decline</Button>
-                <Button bsStyle="primary" onClick={this.approveCredit} disabled={gotToken===false}>Approve</Button>
+                <Button bsStyle="primary" onClick={this.approveCredit} disabled={gotToken==false}>Approve</Button>
               </Modal.Footer>
             </Modal>
             </Col>
