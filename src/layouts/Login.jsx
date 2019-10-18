@@ -20,9 +20,8 @@ class LoginPage extends React.Component {
     render() {
         return (
             <div>
-                <div className="alert alert-info">
-                    Username: test<br />
-                    Password: test
+                <div className="alert login-alert alert-info">
+                    Binusu Credit
                 </div>
                 
                 <Formik
@@ -54,8 +53,17 @@ class LoginPage extends React.Component {
                         <div className="content">
                             <Grid fluid>
                                 <Row>
-                                    <Col lg={4} sm={6}></Col>
-                                    <Col lg={4} sm={6}>
+                                    <Col lg={6} md={6} sm={6} className="login-image">
+                                        <div >
+                                            <div className="intro-words">
+                                                <h2>Decentralised Finance</h2>
+                                                <h3>And</h3>
+                                                <h2>Social Responsibility Credit</h2>
+                                                <h3>Platform</h3>
+                                            </div>
+                                        </div>
+                                    </Col>
+                                    <Col lg={6} md={6} sm={6} className="loginForm">
                                         <Card
                                         title="LOGIN TO BINUSU CREDIT"
                                         content={
