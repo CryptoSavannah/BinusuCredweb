@@ -785,3 +785,26 @@
   margin-top: -7px;
   border-width: 7px 7px 7px 0;
 }
+
+.login-alert {
+    color: azure;
+    padding: 20px;
+    background-color: #333;
+    margin-bottom: 0px;
+}
+
+.login-image {
+    background: black;
+    background-size: cover;
+}
+
+.loginForm{
+    padding: 100px 80px;
+}
+
+.intro-words{
+    color: azure;
+    text-align: center;
+    min-height: 100vh;
+    padding: 100px 20px;
+}
