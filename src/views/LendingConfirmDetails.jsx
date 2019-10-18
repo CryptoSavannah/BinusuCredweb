@@ -3,6 +3,7 @@ import { Grid, Row, Col, Modal, OverlayTrigger, Popover } from "react-bootstrap"
 import Button from "components/CustomButton/CustomButton.jsx";
 import { FormInputs } from "components/FormInputs/FormInputs.jsx";
 import { Loader } from "components/Loaders/Loader.jsx";
+import { Loader2} from "components/Loaders/Loader2.jsx";
 import { authenticationService } from "services/authenticationService";
 import axios from 'axios';
 import NotificationSystem from "react-notification-system";
@@ -39,7 +40,7 @@ export default class LendingConfirmDetails extends Component{
       this.getAddressBalance();
 
       axios.get(`${remoteApiUrl}/loans/${loanid}/`, { headers: { Authorization: 'Bearer '.concat(this.state.currentUser.token.token) }})
-      .then(res => this.setState({ particularLoan:res.data.data, loading: false}))
+      .then(res => this.setState({ particularLoan:res.data.data, loading:false}))
     }
   }
 
@@ -202,8 +203,10 @@ export default class LendingConfirmDetails extends Component{
   render() {
     const { particularLoan, loading, gotToken, userBalance } = this.state;
     
-    if (loading) return <Loader />;
-      
+    if (loading) return(
+      <Loader2/>
+    )
+                    
     return (
       <div className="content">
       <NotificationSystem ref="notificationSystem" style={style}/>

@@ -4,6 +4,7 @@ import Button from "components/CustomButton/CustomButton.jsx";
 import { FormInputs } from "components/FormInputs/FormInputs.jsx";
 import { Loader } from "components/Loaders/Loader.jsx";
 import ChartistGraph from "react-chartist";
+import { Loader2} from "components/Loaders/Loader2.jsx";
 import { authenticationService } from "services/authenticationService";
 import axios from 'axios';
 import {
@@ -172,7 +173,7 @@ export default class BorrowingConfirmDetails extends Component{
         return results.json()
       })
       .then(data => {
-        if(data.status=="success"){
+        if(data.status==="success"){
           console.log(data.response.receipt)
           this.updateLoanStatus(this.state.loanId.unpaidloanId  , this.state.currentUser.user_details.bnu_address, this.state.amount)
 
@@ -240,7 +241,10 @@ export default class BorrowingConfirmDetails extends Component{
   }
   
   render() {
-    const { particularLoan, repayment_history, amount, userBalance, gotToken } = this.state;
+    const { particularLoan, repayment_history, amount, userBalance, gotToken, loading } = this.state;
+    if (loading) return(
+      <Loader2/>
+    )
 
     return (
       <div className="content">
