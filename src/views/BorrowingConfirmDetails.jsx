@@ -173,7 +173,7 @@ export default class BorrowingConfirmDetails extends Component{
         return results.json()
       })
       .then(data => {
-        if(data.status=="success"){
+        if(data.status==="success"){
           console.log(data.response.receipt)
           this.updateLoanStatus(this.state.loanId.unpaidloanId  , this.state.currentUser.user_details.bnu_address, this.state.amount)
 
@@ -397,7 +397,7 @@ export default class BorrowingConfirmDetails extends Component{
               </Modal.Body>
               <Modal.Footer>
                 <Button onClick={this.handleClose}>Decline</Button>
-                <Button bsStyle="primary" onClick={this.approveCredit} disabled={gotToken==false}>Approve</Button>
+                <Button bsStyle="primary" onClick={this.approveCredit} disabled={gotToken===false}>Approve</Button>
               </Modal.Footer>
             </Modal>
             </Col>
