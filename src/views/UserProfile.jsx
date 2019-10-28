@@ -14,6 +14,7 @@ import { FormInputs } from "components/FormInputs/FormInputs.jsx";
 import { UserCard } from "components/UserCard/UserCard.jsx";
 import Button from "components/CustomButton/CustomButton.jsx";
 import { authenticationService } from "services/authenticationService";
+import { Loader3 } from "components/Loaders/Loader3.jsx";
 
 import {
   thLendersArray,
@@ -26,11 +27,34 @@ class UserProfile extends Component {
 
   state = {
     transaction_history: [],
-    currentUser: authenticationService.currentUserValue
+    currentUser: authenticationService.currentUserValue,
+    historyLoading: true
+  }
+
+  componentDidMount() {
+    this.fetchTransactionHistory();
+  }
+
+  fetchTransactionHistory = () => {
+    const requestOptions = {
+      method: 'POST',
+      headers: { 
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ method: "getTxes", address: this.state.currentUser.user_details.bnu_address, number:20})
+    };
+
+    fetch(`https://tokyo.adin.ug/api/node/mobile_api.php`, requestOptions)
+      .then(results => {
+          return results.json()
+      })
+      .then(data => {
+        this.setState({ transaction_history:data.response, historyLoading:false })
+      });
   }
 
   render() {
-    const { transaction_history, currentUser } = this.state;
+    const { transaction_history, currentUser, historyLoading } = this.state;
 
     return (
       <div className="content">
@@ -153,25 +177,30 @@ class UserProfile extends Component {
                 content={
                   <Table striped hover>
                     <thead>
-                      <tr>
-                        {thLendersArray.map((prop, key) => {
-                          return <th key={key}>{prop}</th>;
-                        })}
-                      </tr>
+                      <th>Sender</th>
+                      <th>Recepient</th>
+                      <th>Tx ID</th>
+                      <th>Amount</th>
+                      <th>Txn Type</th>
                     </thead>
-                    <tbody>
-                    {transaction_history.map((prop, key) => {
-                        return (
-                          <tr key={key}>
-                            <td>{prop.lending_address.slice(0, 40)}</td>
-                            <td>{prop.actual_payment_date}</td>
-                            <td>{prop.loan_amount}</td>
-                            <td>{prop.expected_amount}</td>
-                            <td>{prop.loan_status}</td>
-                          </tr>
-                        );
-                      })}
-                    </tbody>
+                    {historyLoading===true ? (
+                      <Loader3/>
+                    ) : (
+                      <tbody>
+                      {transaction_history.map((prop, key) => {
+                          return (
+                            <tr key={key}>
+                              <td>{prop.sender.slice(0, 25)}</td>
+                              <td>{prop.recipient.slice(0, 25)}</td>
+                              <td>{prop.txid}</td>
+                              <td>{prop.amount}</td>
+                              <td>{prop.amount}</td>
+                            </tr>
+                          );
+                        })}
+                      </tbody>
+                    ) 
+                    }
                   </Table>
                 }
               />

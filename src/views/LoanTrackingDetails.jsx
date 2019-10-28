@@ -32,8 +32,9 @@ class LoanTrackingDetails extends Component {
   }
 
   componentDidMount() {
-    if(this.state.loanId!=null){
-        const loanid = this.state.loanId.loanId
+    if(this.state.trackloanId!=null){
+        const loanid = this.state.trackloanId.trackloanId
+        console.log(loanid)
         this.getAddressBalance();
         this.fetchRepaymentsHistory(loanid);
   
