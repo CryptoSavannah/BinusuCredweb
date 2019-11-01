@@ -47,6 +47,9 @@ class Dashboard extends Component {
       })
       .then(data => {
         this.setState({ userBalance:data.response.available.toFixed(2) })
+      })
+      .catch(err => {
+        this.setState({ userBalance:0 })
       });
   }
 

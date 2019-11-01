@@ -90,6 +90,9 @@ export default class BorrowingConfirmDetails extends Component{
       })
       .then(data => {
         this.setState({ userBalance:data.response.available })
+      })
+      .catch(err => {
+        this.setState({ userBalance:0 })
       });
   }
 

@@ -105,6 +105,9 @@ class Lending extends Component {
       .then(data => {
         const balance = data.response.available+data.response.pending
         this.setState({ userBalance:balance.toFixed(2) })
+      })
+      .catch(err => {
+        this.setState({ userBalance:0 })
       });
   }
 

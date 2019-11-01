@@ -15,6 +15,12 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 */
+/*Halloween Font*/
+@font-face {
+    font-family: 'HalloweenToo';
+    src: local('HalloweenToo'), url(../fonts/Halloween_Too.ttf) format('truetype');
+}
+
 .fixed-plugin .button-container .github-btn{
     display: inline-block;
     font-size: 14px;
@@ -807,4 +813,18 @@
     text-align: center;
     min-height: 100vh;
     padding: 100px 20px;
+    font-family: HalloweenToo;
+}
+
+.head-word{
+    font-family: HalloweenToo;
+    font-weight: 700;
+    font-size: 60px;
+}
+
+.body-word {
+    font-family: HalloweenToo;
+    font-weight: 500;
+    font-size: 45px;
+    color: red;
 }
