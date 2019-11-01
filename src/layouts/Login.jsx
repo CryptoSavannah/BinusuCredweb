@@ -20,7 +20,7 @@ class LoginPage extends React.Component {
 
     render() {
         return (
-            <div>
+            <div className="row">
                 <div className="alert login-alert alert-info">
                     Binusu Credit
                 </div>
@@ -57,9 +57,10 @@ class LoginPage extends React.Component {
                                     <Col lg={6} md={6} sm={6} className="login-image">
                                         <div >
                                             <div className="intro-words">
-                                                <h2>Decentralised Finance</h2>
+                                                <h1><i class="fas fa-spider"></i></h1>
+                                                <h2 className="head-word">Decentralised Finance</h2>
                                                 <h3>And</h3>
-                                                <h2>Social Responsibility Credit</h2>
+                                                <h2 className="body-word">Social Responsibility Credit</h2>
                                                 <h3>Platform</h3>
                                             </div>
                                         </div>

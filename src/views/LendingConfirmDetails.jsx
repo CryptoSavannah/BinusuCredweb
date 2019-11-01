@@ -69,6 +69,9 @@ export default class LendingConfirmDetails extends Component{
       })
       .then(data => {
         this.setState({ userBalance:data.response.available })
+      })
+      .catch(err => {
+        this.setState({ userBalance:0 })
       });
   }
 
