@@ -46,7 +46,7 @@ class Lending extends Component {
   // }
 
   fetchBorrowerLoanRequests = () => {
-    axios.get(`${remoteApiUrl}/loans/`, { headers: { Authorization: 'Bearer '.concat(this.state.currentUser.token.token) }})
+    axios.get(`${remoteApiUrl}/loans/?address=${this.state.currentUser.user_details.bnu_address}`, { headers: { Authorization: 'Bearer '.concat(this.state.currentUser.token.token) }})
     .then(res => this.setState({ loans:res.data.data, borrowersLoading:false }))
   }
 
@@ -131,7 +131,7 @@ class Lending extends Component {
             <Col lg={3} sm={6}>
               <StatsCard
                 bigIcon={<i className="pe-7s-drawer text-success" />}
-                statsText="Lending Balance"
+                statsText="Float"
                 statsValue={userBalance}
                 statsIcon={<i className="fa fa-refresh" />}
                 statsIconText="Updated now"
@@ -140,7 +140,7 @@ class Lending extends Component {
             <Col lg={3} sm={6}>
               <StatsCard
                 bigIcon={<i className="pe-7s-cash text-info" />}
-                statsText="Lent Money"
+                statsText="Loans Issued"
                 statsValue={lentMoney}
                 statsIcon={<i className="fa fa-clock-o" />}
                 statsIconText="In the last hour"
@@ -149,7 +149,7 @@ class Lending extends Component {
             <Col lg={3} sm={6}>
               <StatsCard
                 bigIcon={<i className="pe-7s-cash text-success" />}
-                statsText="Total Interest(Open Loans)"
+                statsText="Interest Accrued"
                 statsValue={interest}
                 statsIcon={<i className="pe-7s-info" />}
                 statsIconText="see how it's calculated"
@@ -191,7 +191,7 @@ class Lending extends Component {
                           
                           return (
                             <tr key={key}>
-                              <td><Link to={{pathname: "/admin/track_loan", state: {loanId: prop.id}}}>{prop.lending_address.slice(0, 40)}</Link></td>
+                              <td><Link to={{pathname: "/admin/track_loan", state: {trackloanId: prop.id}}}>{prop.lending_address.slice(0, 40)}</Link></td>
                               <td>{prop.date_approved}</td>
                               <td>{prop.loan_amount}</td>
                               <td>{prop.outstanding_amount}</td>
@@ -228,7 +228,8 @@ class Lending extends Component {
                         <th>Borrower Address</th>
                         <th>Amount</th>
                         <th>Interest</th>
-                        <th>Duration</th>
+                        <th>Loan Period(Days)</th>
+                        <th>Repayment Date</th>
                         <th>Credit Score</th>
                       </thead>
                       {borrowersLoading==true ? (

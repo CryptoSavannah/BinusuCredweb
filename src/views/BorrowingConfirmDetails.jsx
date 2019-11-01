@@ -21,9 +21,11 @@ import {
 } from "variables/Variables.jsx";
 import { sha256 } from 'js-sha256';
 
+
 import { Card } from "components/Card/Card.jsx";
 import { StatsCard } from "components/StatsCard/StatsCard.jsx";
 const remoteApiUrl = "https://test.credit.binusu.kapsonlabs.ml/api/v1"
+const QRCode = require('qrcode.react');
 
 export default class BorrowingConfirmDetails extends Component{
   constructor(props){
@@ -241,7 +243,8 @@ export default class BorrowingConfirmDetails extends Component{
   }
   
   render() {
-    const { particularLoan, repayment_history, amount, userBalance, gotToken, loading } = this.state;
+    const { particularLoan, repayment_history, amount, userBalance, gotToken, loading, paymentMethod } = this.state;
+    const qr_string = `binusu:${particularLoan.lending_address}&amount=${amount}&payid=${particularLoan.pay_id}`
     if (loading) return(
       <Loader2/>
     )
@@ -255,25 +258,13 @@ export default class BorrowingConfirmDetails extends Component{
                 title="Make Loan Repayment"
                 content={
                   <form onSubmit={this.handleShow}>
-                    <Col lg={6} sm={6}>
+                    <Col lg={12} sm={12}>
                     <FormGroup controlId="formControlsSelect">
                       <ControlLabel>Select Payment Method</ControlLabel>
                       <FormControl name="paymentMethod" componentClass="select" placeholder="select" onChange={this.onChange}>
                         <option value="select">select payment method</option>
                         <option value="credit">FROM CREDIT BALANCE</option>
-                      </FormControl>
-                    </FormGroup>
-                    </Col>
-
-                    <Col lg={6} sm={6}>
-                    <FormGroup controlId="formControlsSelect">
-                      <ControlLabel>Select Currency</ControlLabel>
-                      <FormControl name="currency" componentClass="select" placeholder="select" onChange={this.onChange}>
-                        <option value="select">select currency</option>
-                        <option value="BNU">BNU</option>
-                        <option value="BTC">BTC</option>
-                        <option value="ETH">ETH</option>
-                        <option value="LTC">LTC</option>
+                        <option value="wallet">FROM BINUSU WALLET</option>
                       </FormControl>
                     </FormGroup>
                     </Col>
@@ -300,7 +291,7 @@ export default class BorrowingConfirmDetails extends Component{
                       ]}
                     />
 
-                    {parseFloat(amount) < parseFloat(userBalance) ? (
+                    {parseFloat(amount) > 1 ? (
                         <Button bsStyle="info" fill type="submit" active>
                           Approve Credit Repayment
                         </Button>
@@ -383,23 +374,45 @@ export default class BorrowingConfirmDetails extends Component{
               }
             />
 
-            <Modal show={this.state.show} onHide={this.handleClose}>
-              <Modal.Header closeButton>
-                <Modal.Title>Confirm Repayment</Modal.Title>
-              </Modal.Header>
-              <Modal.Body>
-                <h4>You are approving this repayment request</h4>
-                <p>
-                  Lender: 
-                </p>
+            {paymentMethod==="credit" ? (
+              <Modal show={this.state.show} onHide={this.handleClose}>
+                <Modal.Header closeButton>
+                  <Modal.Title>Confirm Repayment</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                  <h4>You are approving this repayment request</h4>
+                  <p>
+                    Lender: {particularLoan.lending_address.slice(0, 40)}
+                  </p>
 
-                <p>Amount: {amount}</p>
-              </Modal.Body>
-              <Modal.Footer>
-                <Button onClick={this.handleClose}>Decline</Button>
-                <Button bsStyle="primary" onClick={this.approveCredit} disabled={gotToken==false}>Approve</Button>
-              </Modal.Footer>
-            </Modal>
+                  <p>Amount: {amount}</p>
+                </Modal.Body>
+                <Modal.Footer>
+                  <Button onClick={this.handleClose}>Decline</Button>
+                  <Button bsStyle="primary" onClick={this.approveCredit} disabled={gotToken==false}>Approve</Button>
+                </Modal.Footer>
+              </Modal>
+            ): (
+              <Modal show={this.state.show} onHide={this.handleClose}>
+                <Modal.Header closeButton>
+                  <Modal.Title>Confirm Repayment</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                  <QRCode
+                    id="123"
+                    value={qr_string}
+                    size={290}
+                    level={"H"}
+                    includeMargin={true}
+                  />
+                  <p>You are paying {amount} to {particularLoan.lending_address.slice(0, 40)}</p>
+                </Modal.Body>
+                <Modal.Footer>
+                  <Button onClick={this.handleClose}>Decline</Button>
+                </Modal.Footer>
+              </Modal>
+            )}
+
             </Col>
           </Row>
         </Grid>
