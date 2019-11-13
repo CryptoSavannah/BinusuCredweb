@@ -57,10 +57,9 @@ class LoginPage extends React.Component {
                                     <Col lg={6} md={6} sm={6} className="login-image">
                                         <div >
                                             <div className="intro-words">
-                                                <h1><i class="fas fa-spider fa-pulse"></i><i class="fas fa-mask fa-spin"></i><i class="fas fa-cat"></i></h1>
-                                                <h2 className="head-word">Decentralised Finance</h2>
+                                                <h2 >Decentralised Finance</h2>
                                                 <h3>And</h3>
-                                                <h2 className="body-word">Social Responsibility Credit</h2>
+                                                <h2>Social Responsibility Credit</h2>
                                                 <h3>Platform</h3>
                                             </div>
                                         </div>
