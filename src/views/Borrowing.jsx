@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Grid, Row, Col, Table, 
     FormGroup,
     ControlLabel,
-    FormControl } from "react-bootstrap";
+    FormControl, Modal } from "react-bootstrap";
 import NotificationSystem from "react-notification-system";
 import Button from "components/CustomButton/CustomButton.jsx";
 import { FormInputs } from "components/FormInputs/FormInputs.jsx";
@@ -18,17 +18,23 @@ import { Tasks2 } from "components/Tasks/Tasks2.jsx";
 const remoteApiUrl = "https://test.credit.binusu.kapsonlabs.ml/api/v1"
 
 class Borrowing extends Component {
-
-  state = {
-    submitted_loans: [],
-    borrower_history: [],
-    unpaidloans: [],
-    currentUser: authenticationService.currentUserValue,
-    amount: '',
-    date: '',
-    expected_amount: '',
-    borrowedMoney: '',
-    _notificationSystem: null,
+  constructor(props){
+    super(props);
+    this.state = {
+      submitted_loans: [],
+      borrower_history: [],
+      unpaidloans: [],
+      currentUser: authenticationService.currentUserValue,
+      amount: '',
+      date: '',
+      expected_amount: '',
+      borrowedMoney: '',
+      _notificationSystem: null,
+      show: false,
+    }
+    
+    this.handleShow = this.handleShow.bind(this);
+    this.handleClose = this.handleClose.bind(this);
   }
 
   componentDidMount() {
@@ -124,6 +130,15 @@ class Borrowing extends Component {
       });
   }
 
+  handleShow(e) {
+    // e.preventDefault();
+    this.setState({ show: true });
+  }
+
+  handleClose = () => {
+    this.setState({ show: false });
+  }
+
   createLegend(json) {
     var legend = [];
     for (var i = 0; i < json["names"].length; i++) {
@@ -202,7 +217,7 @@ class Borrowing extends Component {
                 statsText="Borrowing Power Left"
                 statsValue="5K"
                 statsIcon={<i className="fa fa-clock-o" />}
-                statsIconText="In the last hour"
+                statsIconText="Updated now"
               />
             </Col>
             <Col lg={3} sm={6}>
@@ -211,11 +226,12 @@ class Borrowing extends Component {
                 statsText="Market Interest Rate"
                 statsValue="0.7%"
                 statsIcon={<i className="fa fa-info" />}
-                statsIconText="See how it's calculated"
+                statsIconText="See how it's generated"
               />
             </Col>
             <Col lg={3} sm={6}>
               <StatsCard
+                cardLink={this.handleShow}
                 bigIcon={<i className="pe-7s-portfolio text-success" />}
                 statsText="Credit Score"
                 statsValue="650"
@@ -383,6 +399,19 @@ class Borrowing extends Component {
             </Col>
           </Row>
         </Grid>
+
+        <Modal show={this.state.show} onHide={this.handleClose}>
+          <Modal.Header closeButton>
+            <Modal.Title>Credit Rating Criteria</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <p>Modal Works</p>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button onClick={this.handleClose}>Decline</Button>
+          </Modal.Footer>
+        </Modal>
+
       </div>
     );
   }
