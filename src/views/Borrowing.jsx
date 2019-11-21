@@ -130,7 +130,7 @@ class Borrowing extends Component {
       });
   }
 
-  handleShow(e) {
+  handleShow = ()  => {
     // e.preventDefault();
     this.setState({ show: true });
   }
