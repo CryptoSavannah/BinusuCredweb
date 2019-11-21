@@ -10,16 +10,13 @@ class RegisterPage extends React.Component {
     constructor(props) {
         super(props);
 
-        // redirect to home if already logged in
-        if (authenticationService.currentUserValue) { 
-            this.props.history.push('/admin/choose_track');
-        }
+    
     }
 
     render() {
         return (
-            <div>
-                <div className="alert alert-info">
+            <div className="row">
+                <div className="alert login-alert alert-info">
                     Binusu Credit
                 </div>
                 
@@ -29,8 +26,13 @@ class RegisterPage extends React.Component {
                         password: ''
                     }}
                     validationSchema={Yup.object().shape({
-                        username: Yup.string().required('Full Name is required'),
-                        password: Yup.string().required('This field is is required')
+                        firstname: Yup.string().required('First Name is required'),
+                        lastname: Yup.string().required('Last Name is required'),
+                        ninnumber: Yup.string().required('Nin number is required'),
+                        email: Yup.string().required('Email is required'),
+                        address: Yup.string().required('Address is required'),
+                        phonenumber: Yup.string().required('Phone Number is required'),
+                        password: Yup.string().required('Password is required')
                     })}
                     onSubmit={({ username, password }, { setStatus, setSubmitting }) => {
                         setStatus();
@@ -50,42 +52,85 @@ class RegisterPage extends React.Component {
                         <div className="content">
                             <Grid fluid>
                                 <Row>
-                                    <Col lg={4} sm={12}></Col>
-                                    <Col lg={4} sm={12}>
+                                    <Col lg={3} sm={0}></Col>
+                                    <Col lg={6} sm={12}>
                                         <Card
                                         title="REGISTER TO BINUSU CREDIT"
                                         content={
                                         <Form>
-                                            <div className="form-group">
-                                                <label htmlFor="username">Full Name</label>
-                                                <Field name="username" type="text" className={'form-control' + (errors.username && touched.username ? ' is-invalid' : '')} />
-                                                <ErrorMessage name="username" component="div" className="invalid-feedback" />
+                                            <div className="row">
+                                                <div className="col-md-6">
+                                                    <div className="form-group">
+                                                        <label htmlFor="firstname">First Name</label>
+                                                        <Field name="firstname" type="text" className={'form-control' + (errors.firstname && touched.firstname ? ' is-invalid' : '')} />
+                                                        <ErrorMessage name="firstname" component="div" className="invalid-feedback" />
+                                                    </div>
+                                                </div>
+                                                <div className="col-md-6">
+                                                    <div className="form-group">
+                                                        <label htmlFor="lastname">Last Name</label>
+                                                        <Field name="lastname" type="text" className={'form-control' + (errors.lastname && touched.lastname ? ' is-invalid' : '')} />
+                                                        <ErrorMessage name="lastname" component="div" className="invalid-feedback" />
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div className="row">
+                                                <div className="col-md-6">
+                                                    <div className="form-group">
+                                                        <label htmlFor="ninnumber">NIN Number</label>
+                                                        <Field name="ninnumber" type="text" className={'form-control' + (errors.ninnumber && touched.ninnumber ? ' is-invalid' : '')} />
+                                                        <ErrorMessage name="ninnumber" component="div" className="invalid-feedback" />
+                                                    </div>
+                                                </div>
+
+                                                <div className="col-md-6">    
+                                                    <div className="form-group">
+                                                        <label htmlFor="email">Email Address</label>
+                                                        <Field name="email" type="email" className={'form-control' + (errors.email && touched.email ? ' is-invalid' : '')} />
+                                                        <ErrorMessage name="email" component="div" className="invalid-feedback" />
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div className="row">
+                                                <div className="col-md-6">
+                                                    <div className="form-group">
+                                                        <label htmlFor="address">Address</label>
+                                                        <Field name="address" type="text" className={'form-control' + (errors.address && touched.address ? ' is-invalid' : '')} />
+                                                        <ErrorMessage name="address" component="div" className="invalid-feedback" />
+                                                    </div>
+                                                </div>
+                                                <div className="col-md-6">
+                                                    <div className="form-group">
+                                                        <label htmlFor="phonenumber">Phone Number</label>
+                                                        <Field name="phonenumber" type="password" className={'form-control' + (errors.phonenumber && touched.phonenumber ? ' is-invalid' : '')} />
+                                                        <ErrorMessage name="phonenumber" component="div" className="invalid-feedback" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            
+                                            <div className="row">
+                                                <div className="col-md-6">
+                                                    <div className="form-group">
+                                                        <label htmlFor="password">Password</label>
+                                                        <Field name="password" type="password" className={'form-control' + (errors.password && touched.password ? ' is-invalid' : '')} />
+                                                        <ErrorMessage name="password" component="div" className="invalid-feedback" />
+                                                    </div>
+                                                </div>
+                                                <div className="col-md-6">
+                                                    <div className="form-group">
+                                                        <label htmlFor="password"> Re Enter Password</label>
+                                                        <Field name="password" type="password" className={'form-control' + (errors.password && touched.password ? ' is-invalid' : '')} />
+                                                        <ErrorMessage name="password" component="div" className="invalid-feedback" />
+                                                    </div>
+                                                </div>
                                             </div>
                                             <div className="form-group">
-                                                <label htmlFor="password">Address</label>
-                                                <Field name="password" type="password" className={'form-control' + (errors.password && touched.password ? ' is-invalid' : '')} />
-                                                <ErrorMessage name="password" component="div" className="invalid-feedback" />
+                                                <label htmlFor="refferal">Refferal ID</label>
+                                                <Field name="refferal" type="text" className={'form-control'} />
                                             </div>
-                                            <div className="form-group">
-                                                <label htmlFor="password">Email</label>
-                                                <Field name="password" type="password" className={'form-control' + (errors.password && touched.password ? ' is-invalid' : '')} />
-                                                <ErrorMessage name="password" component="div" className="invalid-feedback" />
-                                            </div>
-                                            <div className="form-group">
-                                                <label htmlFor="password">Password</label>
-                                                <Field name="password" type="password" className={'form-control' + (errors.password && touched.password ? ' is-invalid' : '')} />
-                                                <ErrorMessage name="password" component="div" className="invalid-feedback" />
-                                            </div>
-                                            <div className="form-group">
-                                                <label htmlFor="password">NIN Number</label>
-                                                <Field name="password" type="password" className={'form-control' + (errors.password && touched.password ? ' is-invalid' : '')} />
-                                                <ErrorMessage name="password" component="div" className="invalid-feedback" />
-                                            </div>
-                                            <div className="form-group">
-                                                <label htmlFor="password">Refferal ID</label>
-                                                <Field name="password" type="password" className={'form-control' + (errors.password && touched.password ? ' is-invalid' : '')} />
-                                                <ErrorMessage name="password" component="div" className="invalid-feedback" />
-                                            </div>
+                                            
                                             <div className="form-group">
                                                 <button type="submit" className="btn btn-primary" disabled={isSubmitting}>Register</button>
                                                 {isSubmitting &&
